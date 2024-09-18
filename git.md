@@ -61,7 +61,7 @@
   - 在 `.git` 目錄裡有一個名為 `HEAD` 的檔案，記錄著當前所在的分支。
 - **示意圖**：
 
-  ![HEAD 指標示意圖](git-practice/image/image.png)
+  ![HEAD 指標示意圖](./image/image.png)
 
 - **深入解析**：
   - `HEAD` 檔案內容通常是指向 `refs/heads/main`（或其他分支）。
@@ -91,13 +91,13 @@ Git 四種物件的關係與執行指令時的關係：
 
 **步驟 1：尚未把 `git.md` 加入暫存區**
 
-![未加入暫存區](git-practice/image/image-3.png)
+![未加入暫存區](./image/image-3.png)
 
 **步驟 2：輸入 `git add git.md`**
 
 **步驟 3：在 `.git/objects` 目錄下出現了 `5b` 的資料夾**
 
-![出現 5b 資料夾](git-practice/image/image-4.png)
+![出現 5b 資料夾](./image/image-4.png)
 
 **步驟 4：查看 `5b` 資料夾的檔案內容**
 
@@ -108,14 +108,14 @@ Git 四種物件的關係與執行指令時的關係：
 
 > 使用 2 個字元作為子目錄，是為了避免 `.git/objects` 目錄因為檔案過多而降低效能。
 
-![查看檔案內容](git-practice/image/image-5.png)
+![查看檔案內容](./image/image-5.png)
 
 **步驟 5：檔案內容因為已經被壓縮過，所以無法直接查看**
 
 - 使用 `git cat-file -t 5b636` 查看物件類型。
   - `-t` 參數代表查看物件的類型，可以看到結果是 Blob 物件。
 
-![查看物件類型](git-practice/image/image-6.png)
+![查看物件類型](./image/image-6.png)
 
 ---
 
