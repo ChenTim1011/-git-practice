@@ -1,5 +1,3 @@
----
-
 # 大綱
 
 - 說明 blob、tree、commit、branch、HEAD 分別是什麼

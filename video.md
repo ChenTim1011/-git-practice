@@ -1,5 +1,3 @@
----
-
 # 學習如何學習
 
 - 請看完這個影片:[腦科學最新發現，史丹佛學者揭秘有用學習方法！](https://www.youtube.com/watch?v=DgbSc6Ys710)，在 video.md 裡寫下「你自己預計怎麼做」
