@@ -1,0 +1,13 @@
+{
+  "name": "week-02",
+  "version": "1.0.0",
+  "description": "homework for week 2",
+  "main": "main.js",
+  "type":"module", // Warning: To load an ES module, set "type": "module" in the package.json or use the .mjs extension.
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
