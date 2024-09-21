@@ -1,0 +1,36 @@
+n =  10
+recursive_fib: 0.119ms
+iterative_fib: 0.069ms
+dynamic_fib: 0.098ms
+n =  15
+recursive_fib: 1.473ms
+iterative_fib: 0.014ms
+dynamic_fib: 0.214ms
+n =  20
+recursive_fib: 0.876ms
+iterative_fib: 0.012ms
+dynamic_fib: 0.022ms
+n =  25
+recursive_fib: 8.375ms
+iterative_fib: 0.008ms
+dynamic_fib: 0.028ms
+n =  30
+recursive_fib: 55.761ms
+iterative_fib: 0.007ms
+dynamic_fib: 0.014ms
+n =  35
+recursive_fib: 642.272ms
+iterative_fib: 0.007ms
+dynamic_fib: 0.015ms
+n =  40
+recursive_fib: 7739.564ms
+iterative_fib: 0.008ms
+dynamic_fib: 0.015ms
+n =  45
+recursive_fib: 85594.585ms
+iterative_fib: 0.009ms
+dynamic_fib: 0.017ms
+n =  50
+recursive_fib: 1037585.390ms
+iterative_fib: 0.010ms
+dynamic_fib: 0.071ms
