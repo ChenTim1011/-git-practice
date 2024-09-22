@@ -242,6 +242,161 @@ console.log(1 == '1');   // true，JavaScript 將字串 '1' 隱式轉換為數�
 - **物件與陣列**：JavaScript 中的物件和陣列是**引用型別**。它們的比較結果基於記憶體位置，而不是實際的內容。因此，即使兩個物件或陣列有相同的內容，因為它們指向不同的記憶體位置，嚴格比較（`===`）結果會是 `false`。
 
 ---
+### 紀錄一下 覺得有趣的 Array 函式
+
+- 1.  at() ES2022
+   ```
+   const fruits = ["Banana", "Orange", "Apple", "Mango"];
+   let fruit = fruits.at(2);
+   let fruit = fruits[2];
+
+   ```
+   這兩種用法結果相同，但是為什麼要有 at?
+   寫 Python 如果要取得陣列最後一個元素習慣使用 array[-1] ， 但是 Javascript 並不是這樣
+   **[]** 在 javascript 可以被用來存取陣列或是物件，如果是物件 obj[-1] 意思是取出 key 為 -1 的值**並不是最後一個元素**
+
+- 2.  join()
+   連結所有陣列元素變成字串
+
+   ```
+   const fruits = ["Banana", "Orange", "Apple", "Mango"];
+   fruits.join(" * ");
+   console.log(fruits) // Banana * Orange * Apple * Mango
+
+   ```
+- 3. pop() 
+   可以用來做 stack 的 pop => 移除array最後的元素
+
+- 4. push()
+   可以用來做 stack 的 push => 從array後面新增新元素
+
+- 5. shift()
+   移除第一個元素，然後移動所有其他的元素到 lower index. 
+   ```
+   const fruits = ["Banana", "Orange", "Apple", "Mango"];
+   fruits.shift();
+   console.log(fruits) // fruits = ["Orange", "Apple", "Mango"]
+   ```
+   shift()會回傳已經移除掉的值
+
+- 6. unshift()
+   新增元素第一個元素的位置，然後移動舊的元素
+   ```
+   const fruits = ["Banana", "Orange", "Apple", "Mango"];
+   fruits.unshift("Lemon");
+   console.log(fruits) // fruits = ["Lemon","Banana","Orange", "Apple", "Mango"]
+   console.log(fruits.unshift("Lemon")) // 6  fruits = ["Lemon","Lemon","Banana","Orange", "Apple", "Mango"]
+   ```
+   unshift()回傳新的陣列長度
+
+- 7. toSorted() ES2023
+    原本就有一個 Sort() 為什麼還要有 toSorted()
+    toSorted() 會產生一個新的排序好的陣列，不會改變原有的陣列，但 Sort() 會改變原有的陣列 看你的用途。
+   
+    toReversed() ES2023 和  Reversed() 也是是否有新的陣列產生，會不會影響到原本陣列。
+
+    - Sort() 在比較數字的字串時 例如 "25" 和 "100" 結果是 "25">"100" ( 因為 "2" > "1" )
+    這時候可以使用 Compare function.
+    ```
+         const points = [40, 100, 1, 5, 25, 10];
+         points.sort(function(a, b){return a - b}); // 1,5,10,25,40,100
+    ```
+   當 sort() 函數比較兩個值時，會將這兩個值傳遞給一個比較函數，並根據比較函數返回的結果進行排序。具體來說，這個排序過程的邏輯如下：
+   如果比較函數的返回值是**負數**，那麼第一個值（a）會排在第二個值（b）的前面。
+   如果比較函數的返回值是**正數**，那麼第二個值（b）會排在第一個值（a）的前面。
+   如果比較函數的返回值是0，這兩個值的相對順序不變（不會交換位置）。
+   
+   例如 比較 40 和 100：
+   調用比較函數 compare(40, 100)。
+   計算 40 - 100，結果是 -60，這是一個負數，說明 40 應該排在 100 之前。
+
+
+
+- 8. **forEach()**  
+   用來對陣列的每個元素執行一次回調函數。
+   ```javascript
+   const numbers = [1, 2, 3];
+   numbers.forEach(value => console.log(value));
+   ```
+
+- 9. **map()**  
+   生成一個新陣列，將每個元素通過回調函數進行變換，不會修改原陣列。
+   ```javascript
+   const numbers = [1, 2, 3];
+   const doubled = numbers.map(value => value * 2);
+   console.log(doubled);  // [2, 4, 6]
+   ```
+
+- 10. **filter()**  
+   根據條件過濾出符合的元素，生成新陣列。
+   ```javascript
+   const numbers = [1, 2, 3];
+   const even = numbers.filter(value => value % 2 === 0);
+   console.log(even);  // [2]
+   ```
+
+- 11. **reduce()**  
+   將陣列歸約為單一值（累積運算），從左到右執行。
+   ```javascript
+   const numbers = [1, 2, 3];
+   const sum = numbers.reduce((total, value) => total + value, 0);
+   console.log(sum);  // 6
+   ```
+
+- 12. **some()**  
+   檢查陣列中是否至少有一個元素符合條件，返回 `true` 或 `false`。
+   ```javascript
+   const numbers = [1, 2, 3];
+   const hasEven = numbers.some(value => value % 2 === 0);
+   console.log(hasEven);  // true
+   ```
+
+- 13. **every()**  
+   檢查陣列中的所有元素是否都符合條件，返回 `true` 或 `false`。
+   ```javascript
+   const numbers = [1, 2, 3];
+   const allEven = numbers.every(value => value % 2 === 0);
+   console.log(allEven);  // false
+   ```
+
+- 14. **flatMap()**  
+   先對每個元素進行映射，然後展開成一維陣列。
+   ```javascript
+   const arr = [1, 2, 3];
+   const result = arr.flatMap(value => [value, value * 2]);
+   console.log(result);  // [1, 2, 2, 4, 3, 6]
+   ```
+
+- 15. **Array.from()**  
+   將類陣列或可迭代對象轉換為陣列。
+   ```javascript
+   const str = "hello";
+   const arr = Array.from(str);
+   console.log(arr);  // ['h', 'e', 'l', 'l', 'o']
+   ```
+
+- 16. **entries()**  
+   返回陣列中每個鍵/值對的迭代器對象。
+   ```javascript
+   const fruits = ["Apple", "Banana"];
+   const iterator = fruits.entries();
+   for (let [index, value] of iterator) {
+       console.log(index, value);
+   }
+   ```
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -257,3 +412,4 @@ ___
 -[Javascript](https://javascript.info/)
 -[Javascript Book](https://exploringjs.com/js/book/index.html)
 -[第 2 天：基本語法和資料類型](https://ithelp.ithome.com.tw/articles/10344132)
+-[JS array methods](https://www.w3schools.com/js/js_array_methods.asp)
