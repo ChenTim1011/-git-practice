@@ -35,9 +35,9 @@ ___
    npm 可以讓我們方便安裝、管理和分享開發中使用的各種 JavaScript 函式庫和工具。
 
 ### 參考資料
-[bun](https://bun.sh/)
-[nvm](https://github.com/nvm-sh/nvm)
-[npm](https://github.com/npm/cli)
+- [bun](https://bun.sh/)
+- [nvm](https://github.com/nvm-sh/nvm)
+- [npm](https://github.com/npm/cli)
 
 
 
@@ -45,10 +45,11 @@ ___
 
 我使用了遞迴法、迭代法、動態規劃法來求費波納契數。 比較 n = 10 到 n = 50 所需要花費的時間如圖所示
 
+<img src="https://github.com/user-attachments/assets/edc00f56-fd5c-4f80-9a48-4b510491164e" alt="三種方法比較的結果" width="600"/>
 
 
 
 #### 結論：
-- 遞迴法 隨著 n 增加，計算時間顯著增長。對於較大的 n，遞迴方法的時間呈指數級增長，這使得它在計算數字大費波納契數時非常慢。
+- 遞迴法 隨著 n 增加，計算時間顯著增長。對於較大的 n，遞迴方法的時間呈指數級增長，在計算數字大費波納契數時非常慢。
 - 迭代法: 一直是最快的，隨著 n 增加，計算時間幾乎沒有變化。它表現出線性時間複雜度。
 - 動態規劃法: 也表現得相當有效率，與迭代法相似，但由於需要儲存先前計算的值，需要額外的時間成本。
