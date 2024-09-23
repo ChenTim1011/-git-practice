@@ -4,6 +4,7 @@
 function sum(ary) {
   // TODO: sum all elements in ary
   let sum = 0;
+  // 利用forEach來將ary中的每個元素加總
   ary.forEach((item) => {
     sum += item;
   });
@@ -14,6 +15,7 @@ function sum(ary) {
 // 1:使用map
 function sum1(ary) {
   let sum = 0;
+  // 利用map來將ary中的每個元素加總
   ary.map((item) => {
     sum += item;
   });
@@ -22,22 +24,19 @@ function sum1(ary) {
 
 // 2:使用reduce
 function sum2(ary) {
+  // 利用reduce來將ary中的每個元素加總
   return ary.reduce((acc, item) => acc + item, 0);
-}
-
-function sum(ary) {
-  return ary.reduce(function (acc, item) {
-    acc + item;
-  }, 0);
 }
 
 // 3:使用reduceRight
 function sum3(ary) {
+  // 利用reduceRight來將ary中的每個元素加總
   return ary.reduceRight((acc, item) => acc + item);
 }
 
 // 4:使用filter和reduce
 function sum4(ary) {
+  // 利用filter來過濾ary中的每個元素，然後利用reduce來將過濾後的元素加總
   return ary.filter((item) => true).reduce((acc, item) => acc + item, 0);
 }
 
@@ -52,6 +51,7 @@ console.log(sum4([1, 5, 3, 2])); // 11
 function sum5(n) {
   if (n === 1) return 1;
   else {
+    // 利用Array.from來建立一個長度為n的陣列，然後利用reduce來將陣列中的每個元素加總
     return Array.from({ length: n }, (v, i) => i + 1).reduce(
       (acc, item) => acc + item,
       0
