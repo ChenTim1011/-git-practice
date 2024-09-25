@@ -44,6 +44,6 @@
 
 - [Markdown 語法練習](https://sam.webspace.tw/2020/01/10/Markdown%20%E5%B8%B8%E7%94%A8%E8%AA%9E%E6%B3%95%E6%95%B4%E7%90%86/)
 
-- [賴怡琳老師 20240912 個人作業 1](https://lightda-tw.notion.site/20240912-W01-1-3e6313f8703846fd99d59d78aff03d27)
+- [小賴老師 20240912 個人作業 1](https://lightda-tw.notion.site/20240912-W01-1-3e6313f8703846fd99d59d78aff03d27)
 
 ---
