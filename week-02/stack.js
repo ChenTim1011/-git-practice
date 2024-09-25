@@ -21,9 +21,9 @@ export default class Stack {
     // TODO
     if (this.#items.length === 0) {
       return "Stack is empty";
-    } else {
-      return this.#items.pop();
     }
+    // ! 精簡程式碼
+    return this.#items.pop();
   }
 
   // 回傳 stack 頂部的元素，但不移除它
@@ -38,11 +38,8 @@ export default class Stack {
   // 檢查 stack 是否為空
   isEmpty() {
     // TODO
-    if (this.#items.length === 0) {
-      return true;
-    } else {
-      return false;
-    }
+    // ! 精簡程式碼
+    return this.#items.length === 0;
   }
 
   // 回傳 stack 中元素的個數
