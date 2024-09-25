@@ -1,11 +1,17 @@
 // 請在 Node.js 中實作一個函式 fibonacci(n)，該函式返回第 n 個費波納契數。
 
+//用來計算計算次數
+let recursive_count = 0;
+let iterative_count = 0;
+let dynamic_count = 0;
+
 // ! 修正 既然 if, else if 都已經有 return 了，還需要 if/else 嗎？ 程式碼是否可以再更精簡一點？
 
 // 法一:遞迴法 需要注意 回傳值、參數、何時要停止、每一步做什麼
 
 function recursive_fib(n) {
   // TODO: implement fibonacci
+  recursive_count++;
   if (n === 0) return 0;
   else if (n === 1) return 1;
   // ! 修正: 這裡不需要else
@@ -21,6 +27,7 @@ function iterative_fib(n) {
     b = 1,
     c;
   for (let i = 2; i <= n; i++) {
+    iterative_count++;
     c = a + b;
     a = b;
     b = c;
@@ -37,6 +44,7 @@ function iterative_fib(n) {
 function dynamic_fib(n) {
   let fib = [0, 1];
   for (let i = 2; i <= n; i++) {
+    dynamic_count++;
     let temp = fib[0] + fib[1];
     fib[0] = fib[1];
     fib[1] = temp;
@@ -54,6 +62,10 @@ let times = 10;
 // 測試時間 從n=10到n=50測試
 
 for (let n = 10; n <= 10000; n += 5) {
+  recursive_count = 0;
+  iterative_count = 0;
+  dynamic_count = 0;
+
   console.log("n = ", n);
 
   console.time("recursive_fib");
@@ -62,6 +74,8 @@ for (let n = 10; n <= 10000; n += 5) {
   }
   console.timeEnd("recursive_fib");
 
+  console.log("recursive_count = ", recursive_count);
+
   console.time("iterative_fib");
   for (let i = 0; i < times; i++) {
     iterative_fib(n);
@@ -69,10 +83,14 @@ for (let n = 10; n <= 10000; n += 5) {
 
   console.timeEnd("iterative_fib");
 
+  console.log("iterative_count = ", iterative_count);
+
   console.time("dynamic_fib");
   for (let i = 0; i < times; i++) {
     dynamic_fib(n);
   }
 
   console.timeEnd("dynamic_fib");
+
+  console.log("dynamic_count = ", dynamic_count);
 }
