@@ -21,24 +21,35 @@ function sum1(ary) {
   });
   return sum;
 }
+// 作法1: 使用 map 會產生新的陣列，然後我們需要額外 sum 變數來儲存總和的值，感覺有點多餘。 這不是最佳的作法。
 
 // 2:使用reduce
 function sum2(ary) {
   // 利用reduce來將ary中的每個元素加總
   return ary.reduce((acc, item) => acc + item, 0);
 }
+// 作法2: 使用 reduce 來將陣列中的每個元素加總。 這是最適合的作法。
 
 // 3:使用reduceRight
 function sum3(ary) {
   // 利用reduceRight來將ary中的每個元素加總
   return ary.reduceRight((acc, item) => acc + item);
 }
+// 作法3: 和 reduce 類似，但是方向式從右到左。 這裡的方向不影響結果，因為加法是可交換的。 但是如果是減法或除法，方向就會影響結果。
 
 // 4:使用filter和reduce
 function sum4(ary) {
   // 利用filter來過濾ary中的每個元素，然後利用reduce來將過濾後的元素加總
   return ary.filter((item) => true).reduce((acc, item) => acc + item, 0);
 }
+// 作法4:這種方式是多餘的，沒有必要先過濾，直接使用 reduce 。
+
+//! 你用了 forEach, map, reduce, reduceRight, filter + reduce 這幾種寫法來做，非常好，那你覺得哪一種比較恰當呢？
+
+//原本的想法:那時候我的想法是，只想列出其他種的可能。
+//現在的想法:原來我沒有意識到，當我有好幾個不同的選擇，我選擇的理由是什麼?  我要如何來支持我的選擇?
+
+// 結論: 使用reduce是最適合的作法，reduce用來累加或合併陣列中的每個元素。
 
 console.log(sum([1, 5, 3, 2])); // 11
 console.log(sum1([1, 5, 3, 2])); // 11
