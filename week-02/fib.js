@@ -41,6 +41,7 @@ function iterative_fib(n) {
 
 // 我忽略了空間複雜度的分析 我使用了陣列去存數字，這裡的空間複雜度是O(n) 。
 // 可以模仿作法2: 迭代法，只用三個變數去存數字，這樣空間複雜度就是O(1)。
+// 但選擇使用陣列存變數，想要和作法2比較看看。
 function dynamic_fib(n) {
   let fib = [0, 1];
   for (let i = 2; i <= n; i++) {
@@ -60,7 +61,7 @@ let times = 10;
 
 // 測試時間 從n=5到n=45測試
 
-for (let n = 5; n <= 50; n += 5) {
+for (let n = 5; n <= 45; n += 5) {
   recursive_count = 0;
   iterative_count = 0;
   dynamic_count = 0;
@@ -78,7 +79,7 @@ for (let n = 5; n <= 50; n += 5) {
 
   avg_time = total_time / times;
   recursive_count = recursive_count / times;
-  console.log("recursive_avg_time =", avg_time.toFixed(2), "(ms)");
+  console.log("recursive_avg_time =", avg_time.toFixed(5), "(ms)");
   console.log("recursive_count = ", recursive_count);
 
   // test iterative_fib
@@ -95,7 +96,7 @@ for (let n = 5; n <= 50; n += 5) {
   console.log("iterative_avg_time = ", avg_time.toFixed(5), "(ms)");
   console.log("iterative_count = ", iterative_count);
 
-  // test dynamic_fib
+  // test dynamic_fib 測試改良過 空間複雜度O(1)的動態規劃
   total_time = 0;
   for (let i = 0; i < times; i++) {
     const start = performance.now();
