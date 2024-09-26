@@ -53,44 +53,60 @@ function dynamic_fib(n) {
   return fib[1]; // fib[n]
 }
 
-//比較三種方法的效率 做10次平均
-let recursive_time = 0;
-let iterative_time = 0;
-let dynamic_time = 0;
+//!比較三種方法的效率 做10次平均
+let total_time = 0;
+let avg_time = 0;
 let times = 10;
 
-// 測試時間 從n=10到n=50測試
+// 測試時間 從n=5到n=45測試
 
-for (let n = 10; n <= 10000; n += 5) {
+for (let n = 5; n <= 50; n += 5) {
   recursive_count = 0;
   iterative_count = 0;
   dynamic_count = 0;
+  total_time = 0;
 
   console.log("n = ", n);
 
-  console.time("recursive_fib");
+  // test recursive_fib
   for (let i = 0; i < times; i++) {
+    const start = performance.now();
     recursive_fib(n);
+    const end = performance.now();
+    total_time += end - start;
   }
-  console.timeEnd("recursive_fib");
 
+  avg_time = total_time / times;
+  recursive_count = recursive_count / times;
+  console.log("recursive_avg_time =", avg_time.toFixed(2), "(ms)");
   console.log("recursive_count = ", recursive_count);
 
-  console.time("iterative_fib");
+  // test iterative_fib
+  total_time = 0;
   for (let i = 0; i < times; i++) {
+    const start = performance.now();
     iterative_fib(n);
+    const end = performance.now();
+    total_time += end - start;
   }
 
-  console.timeEnd("iterative_fib");
-
+  avg_time = total_time / times;
+  iterative_count = iterative_count / times;
+  console.log("iterative_avg_time = ", avg_time.toFixed(5), "(ms)");
   console.log("iterative_count = ", iterative_count);
 
-  console.time("dynamic_fib");
+  // test dynamic_fib
+  total_time = 0;
   for (let i = 0; i < times; i++) {
+    const start = performance.now();
     dynamic_fib(n);
+    const end = performance.now();
+    total_time += end - start;
   }
-
-  console.timeEnd("dynamic_fib");
-
+  avg_time = total_time / times;
+  dynamic_count = dynamic_count / times;
+  console.log("dynamic_avg_time = ", avg_time.toFixed(5), "(ms)");
   console.log("dynamic_count = ", dynamic_count);
+
+  console.log("---");
 }
