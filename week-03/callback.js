@@ -29,6 +29,7 @@ doJob("刷牙", 1000, function (data) {
   });
 });
 // 發現有一個問題，如果doJob越來越多，會有很多層的callback，這樣的寫法會造成callback hell
+//callback hell 的問題是，程式碼會變得很難閱讀，也很難維護，不方便錯誤處理。
 // 我們可以使用 promise 來解決這個問題
 
 /*
