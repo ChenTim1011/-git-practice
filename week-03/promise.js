@@ -27,12 +27,16 @@ console.log(`開始工作 at ${now.toISOString()}`);
 //     });
 //   });
 // });
+
 //使用promise
+//promise有三種狀態:pending(進行中)、resolved(已成功)、rejected(已失敗)
 const doJobPromise = (job, time) => {
   return new Promise((resolve, reject) => {
+    //doJob 函數完成後，會呼叫 resolve 函數
     doJob(job, time, resolve);
   });
 };
+//pending -> resolved　會觸發then，doJob 函數完成後，透過 then 串接多個非同步函式
 doJobPromise("刷牙", 1000)
   .then((data) => {
     console.log(data);
@@ -49,8 +53,13 @@ doJobPromise("刷牙", 1000)
   .then((data) => {
     console.log(data);
   });
+
 // 有沒有更簡潔的寫法呢？
-// 使用 async/await
+// 使用 async/await 建立在 Promise 之上，讓我們可以更簡潔的處理非同步的問題。
+// async 讓函式回傳值包在一個 Promise 物件中，可以使用 then 來取得回傳值
+// await 用於等待一個 Promise 物件，只能在 async 函式中使用 (註記:如果是 Top-level await 可以在模組頂層使用 await )
+// 使用 await 程式會先暫停，等到 await 的 Promise 完成，才會繼續執行
+
 // async function doAllJobs() {
 //   let data = await doJobPromise("刷牙", 1000);
 //   console.log(data);
@@ -63,3 +72,9 @@ doJobPromise("刷牙", 1000)
 // }
 
 // doAllJobs();
+
+// promise 和 await 的差別
+// Promise 則需要使用 then 和 catch 方法來處理結果和錯誤，語法比較冗長，程式碼流程比較不連貫。
+// async/await 可以使非同步程式碼看起來更像同步程式碼，更容易閱讀和理解。
+
+// 參考資料  https://www.explainthis.io/zh-hant/swe/async-await

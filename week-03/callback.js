@@ -13,8 +13,8 @@ console.log(`開始工作 at ${now.toISOString()}`);
 // write your code here
 // 以下是使用範例
 // call+back => 做完我再叫你的函式，可以被放進函式參數放進去其他參數
-// 原本的痛點  使用 setTimeout非同步 但是動作順序不是我想要的。
-// 我有很多個doJob 但是我想要他們按照我想要的順序執行 => 使用 callback
+// 原本使用 setTimeout 是非同步，但是動作順序不是我想要的。
+// 我有很多個doJob，但是我想要他們按照我想要的順序執行 => 使用 callback
 
 doJob("刷牙", 1000, function (data) {
   console.log(data);
@@ -29,7 +29,7 @@ doJob("刷牙", 1000, function (data) {
   });
 });
 // 發現有一個問題，如果doJob越來越多，會有很多層的callback，這樣的寫法會造成callback hell
-//callback hell 的問題是，程式碼會變得很難閱讀，也很難維護，不方便錯誤處理。
+// callback hell 的問題是，程式碼會變得很難閱讀，也很難維護，不方便錯誤處理。
 // 我們可以使用 promise 來解決這個問題
 
 /*
