@@ -14,14 +14,14 @@ let dynamicFibMoreSpaceCount = 0;
 
 // 法一:遞迴法 需要注意 回傳值、參數、何時要停止、每一步做什麼
 
-// function recursiveFib(n) {
-// TODO: implement fibonacci
-//recursiveCount++;
-//   if (n <= 1) return n;
+function recursiveFib(n) {
+  //TODO: implement fibonacci
+  //recursiveCount++;
+  if (n <= 1) return n;
 
-// ! 修正: 這裡不需要else
-//   return recursiveFib(n - 1) + recursiveFib(n - 2);
-// }
+  //! 修正: 這裡不需要else
+  return recursiveFib(n - 1) + recursiveFib(n - 2);
+}
 
 // 法二:遞迴法但是用尾呼叫最佳化(Tail Call Optimization, TCO)
 // Tail Call 的概念只要一句話：一個函數的在最後一步是呼叫另外一個函數。
@@ -99,18 +99,18 @@ for (let n = 2; n <= 2 ** 13; n = n * 2) {
 
   console.log("n = ", n);
 
-  // // 1.test recursiveFib
-  // for (let i = 0; i < times; i++) {
-  //   const start = performance.now();
-  //   recursiveFib(n);
-  //   const end = performance.now();
-  //   totalTime += end - start;
-  // }
+  // 1.test recursiveFib
+  for (let i = 0; i < times; i++) {
+    const start = performance.now();
+    recursiveFib(n);
+    const end = performance.now();
+    totalTime += end - start;
+  }
 
-  // avgTime = totalTime / times;
-  // //recursiveCount = recursiveCount / times;
-  // console.log("recursiveAvgTime =", avgTime.toFixed(5), "(ms)");
-  // //console.log("recursiveCount = ", recursiveCount);
+  avgTime = totalTime / times;
+  //recursiveCount = recursiveCount / times;
+  console.log("recursiveAvgTime =", avgTime.toFixed(5), "(ms)");
+  //console.log("recursiveCount = ", recursiveCount);
 
   // 2.test tailRecursiveFib
   totalTime = 0;
