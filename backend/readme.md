@@ -47,7 +47,12 @@ package.json 是一個 JSON 檔案，位於 Node.js 專案的根目錄，用於�
 
 
 裡面有很多套件，每個套件有些有套件歷史，說明不同版本更改了哪些東西，index.js 主要程式的內容，
-還有 package.json 依賴了哪些其他的套件，readme 說明套件的功能，還有 License 說明套件是使用哪一個 License 和規範等等。 
+還有 package.json 依賴了哪些其他的套件、readme 說明套件的功能，還有 License 說明套件是使用哪一個 License 和規範等等。 
+
+當你安裝依賴套件時，npm 會將依賴套件放入 node_modules 中，每個依賴套件也可以有自己的 node_modules，形成巢狀結構。
+如果兩個套件依賴於不同版本的同一個套件，npm 會在各自的 node_modules 目錄下安裝相應版本的套件，避免相互覆蓋。
+
+
 
 #### 補充 package-lock.json 到底是什麼?
 package-lock.json 檔案會在每次 npm 修改 node_modules 樹狀結構或 package.json 檔案時自動產生。
@@ -73,9 +78,11 @@ package-lock.json 檔案會在每次 npm 修改 node_modules 樹狀結構或 pac
 
 - [x] **1. `package.json` 中的 `dependencies` 與 `devDependencies` 分別是什麼**
 
-dependencies 列出了專案在正式環境中運行的必要依賴項。
+1. dependencies 列出了專案在正式環境中運行的必要依賴項。
+2. devDependencies 列出了專案開發過程中所需的依賴套件，這些依賴項不會被安裝到正式環境中。
+例外還有一個 peerDependencies 列出了專案在使用其他相關套件時的相容性需求，通常用於開發會被其他專案引用的套件。
+這些依賴套件不會自動安裝，需由使用者自行安裝相應的版本，確保可以與專案中的其他套件共同運作。
 
-devDependencies 列出了專案開發過程中所需的依賴套件，例如測試框架、程式碼檢查工具等，這些依賴項不會被安裝到正式環境中。
 
 - [x] **2. `package.json` 中的 `scripts` 這個區塊怎麼用？**
 
@@ -143,7 +150,7 @@ JavaScript 模組系統主要有兩種：**CommonJS (CJS)** 和 **ES Modules (ES
    }
    ```
 
-   - **異步加載**：ESM 模組是異步加載的，適合用於瀏覽器環境和現代 Node.js 應用。
+   - **非同步加載**：ESM 模組是非同步加載的，適合用於瀏覽器環境和現代 Node.js 應用。
 
 ---
 
@@ -211,6 +218,9 @@ curl -o /dev/null -s -w %{time_connect} www.google.com
 5. -I ： 只請求伺服器返回 HTTP 標頭，而不下載檔案內容。可以用於檢查伺服器的狀態、檔案大小等等。
 6. -s ： 不顯示進度條和其他資訊，僅輸出伺服器的回應。
 7. -w [格式] ： 指定要輸出的 cURL 執行時間統計資料的格式
+
+
+
 
 
 #### 參考資料
