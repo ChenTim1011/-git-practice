@@ -106,35 +106,69 @@ devDependencies 列出了專案開發過程中所需的依賴套件，例如測�
 
 - [x] **5. `require` 和 `import/export` 的差異是什麼？（CJS vs ESM），這兩者分別怎麼用？**
 
-上禮拜的作業用到 import ，一個做法是檔名變成.mjs，另外一種做法 package.json 中加上"type": "module"
-這樣 .js　會被當成 ESM 。 簡單分類的話檔名 .mjs 是 ESM ， 檔名 .cjs 是 CommonJS
-ESM 使用 import 和 export 
-```
-import pkg from 'pkg-esm';
-```
+JavaScript 模組系統主要有兩種：**CommonJS (CJS)** 和 **ES Modules (ESM)**。這兩種系統之間有一些關鍵差異，以下是簡化的說明：
 
-CJS 使用 require 函數來導入 module ，並使用 module. exports 或 exports 對象來定義導出的內容。
-
-```
-const pkg = require('pkg-commonjs');
-```
-
-ESM 和 CJS 是不相容的 module 系統，即不能直接在 ES6 module 和 CommonJS module 之間進行導入和導出，如果想要同時支援兩種模組可以用 conditional exports
-```json
-  "exports": {
-    "import": "./index-module.mjs",
-    "default": "./index-require.cjs"
-  },
-
-```
-ESM 要引入 CommonJS 模組的話，最有保障的方式是使用 createRequire：
-```
-// file.mjs
-import { createRequire } from 'node:module';
-const require = createRequire(import.meta.url);
-const pkg = require('pkg-commonjs');
-```
 ---
+
+#### 1. CommonJS (CJS)
+   - CJS 是 Node.js 最早採用的模組系統。
+   - 透過 `require()` 函數來導入模組，並用 `module.exports` 或 `exports` 來導出內容。
+   
+   **範例：**
+   ```javascript
+   // 導入模組
+   const pkg = require('pkg-commonjs');
+
+   // 導出模組
+   module.exports = function() {
+     // do something
+   };
+   ```
+   - **同步加載**：`require()` 會同步地讀取並執行模組內容，適用於伺服器端。
+
+---
+
+#### 2. ES Modules (ESM)
+   - ESM 是 ES6 引入的標準模組系統，現已在瀏覽器和 Node.js 中廣泛使用。
+   - 使用 `import` 和 `export` 關鍵字來導入與導出模組。
+   
+   **範例：**
+   ```javascript
+   // 導入模組
+   import pkg from 'pkg-esm';
+
+   // 導出模組
+   export function myFunction() {
+     // do something
+   }
+   ```
+
+   - **異步加載**：ESM 模組是異步加載的，適合用於瀏覽器環境和現代 Node.js 應用。
+
+---
+
+#### 3. 如何啟用 ESM
+   - 在上禮拜的作業中，我們學到在 Node.js 中，可以透過兩種方式啟用 ESM：
+     1. **檔名為 `.mjs`**：這會讓 Node.js 將檔案視為 ESM。
+     2. **`package.json` 中加上 `"type": "module"`**：這樣 `.js` 檔案會被視為 ESM。
+   
+---
+
+#### 4. CJS 和 ESM 的相容問題
+   - **不相容**：CJS 和 ESM 是不相容的模組系統，無法直接在兩者之間進行導入和導出。
+   - **解決方法**：為了同時支援這兩種系統，你可以使用 **conditional exports**。
+   
+   **範例：**
+   ```json
+   "exports": {
+     "import": "./index-module.mjs",
+     "default": "./index-require.cjs"
+   }
+   ```
+   這樣 Node.js 會根據導入方式（`import` 或 `require`）選擇正確的模組版本。
+
+---
+
 
 #### 進階題：
 

@@ -1,3 +1,5 @@
+以下內容複製老師作業的部分，練習使用 checklist
+
 ## A. 註冊 AWS 帳號
 
 - [x] 註冊 AWS 帳號
@@ -11,7 +13,7 @@
 - [x] 如果你要使用 AWS 服務，你會怎麼選擇用哪個 Region，考慮的因素有哪些？
 
 我會考量價格和速度。
-我會選擇用 Asia Pacific (Malaysia) ， 因為價格較低，而且馬拉西亞離臺灣地理位置較近，但地理位置和延遲有相關但不是絕對。
+根據 [Average Price for AWS Regions](https://cloudprice.net/aws/regions?sortField=__Geography&sortOrder=true) 這個網站 我會選擇用 Asia Pacific (Malaysia) ， 因為價格較低，而且馬拉西亞離臺灣地理位置較近，但地理位置和延遲有相關但不是絕對。
 但到底是什麼原因會導致馬拉西亞價格是其他亞洲國家區域約 0.25 倍 ， 便宜一定比較好嗎?
 
 ## B. Callback 練習
