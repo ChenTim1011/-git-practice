@@ -10,6 +10,9 @@
     - [x] Public IP 分配
     - [x] launch instance 過程中下載並保管 key
 - [x] 2. 用下載的 key 透過 SSH 連線至 EC2 instance
+      ![用下載的 key 透過 SSH 連線至 EC2 instance](https://github.com/user-attachments/assets/9c24f989-d1c6-4a19-a8f3-c8ba09946fd3)
+
+      
 - [x] 3. 進入 Linux 後，更新作業系統與套件
     ```bash
     sudo apt update -y
@@ -25,6 +28,9 @@
     ```bash
     curl http://52.194.253.186
     ```
+    
+    ![透過 instance 的 public IP 測試 Nginx 是否成功運行](https://github.com/user-attachments/assets/3b78d089-f8c0-45fb-80da-b2717bd5f939)
+
 - [x] 6. 安裝 Node.js 
     ```bash
     sudo apt install nodejs -y
@@ -72,10 +78,14 @@
     ```bash
     curl http://52.194.253.186
     ```
+    ![螢幕擷取畫面 2024-10-06 205506](https://github.com/user-attachments/assets/497a635b-d6d3-4c42-b6d6-34fc3a868041)
+
+
+
 
 - /etc 是什麼的縮寫？這裡通常都放哪些檔案？
 
-      editable text configuration 的檔案，放一些安裝程式的設定檔，像是 nginx 設定檔就放在這裡，看到有 .conf結尾。
+      editable text configuration 的縮寫，通常放一些安裝程式的設定檔，像是 nginx 設定檔就放在這裡，看到有 .conf結尾的檔案。
 
 - /var 這裡通常都放哪些檔案？
     
