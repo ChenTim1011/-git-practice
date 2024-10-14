@@ -291,3 +291,23 @@ Security Group 根據 IP 地址、 port number 、和 protocol，如 TCP、UDP �
 	2. [Configure NGINX logging and monitoring](https://docs.splunk.com/Documentation/AddOns/released/NGINX/Setupv2)
 
 	3. [Web Server & Nginx — (2)](https://medium.com/starbugs/web-server-nginx-2-bc41c6268646)
+
+
+#### 第四週 - 學習心得
+
+1. EC2 部署與設定
+
+    這週我成功部署 EC2 instance，並學習設置 Security group 和 Key ， 確認可以從自己電腦連線到虛擬機器上。
+
+2. Nginx 與 Node.js 的整合
+
+    我安裝並設置 Nginx 作為網頁伺服器，並設定了代理到 Node.js 的 Express 伺服器。
+
+3. PM2 程序管理
+
+    學習如何使用 PM2 管理 Node.js ， PM2 可以讓應用程式能在背景執行，並在崩潰後自動重啟，提高了應用程式的穩定性。
+
+4. Linux 目錄結構與指令
+
+    我學習 /etc、/var 和 /boot 等重要的目錄，複習一些 Unix 指令，有些不常用的指令真的會忘記怎麼用。
+
