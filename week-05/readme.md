@@ -4,11 +4,93 @@
 
 - [x] 1. 選擇任一可以購買網域的服務商，購買自己想要的網域
 
+
+
 - [x] 2. 設定 DNS A Record，將 www 指向自己在個人作業 4 建立的 AWS EC2 instance
+
+![image](https://github.com/user-attachments/assets/f1205cf9-0d29-4b54-b592-88f5a59b51ea)
+
 
 - [x] 3. 到 https://zerossl.com/ 申請 3 個月的免費憑證
  
+![image](https://github.com/user-attachments/assets/bd98943e-75ac-4cea-a003-0a5a9524d798)
+
+
+
+申請好後，下載憑證到自己電腦後，我是放在 WSL /home/ 裡，把憑證放到 EC2 的 虛擬機檔案夾裡
+
+```bash
+scp -i "your-key.pem" certificate.crt ca_bundle.crt private.key ubuntu@"your EC2 public IP":/home/ubuntu
+```
+![image](https://github.com/user-attachments/assets/c1e14400-230a-44ba-ac42-68c5db464fa2)
+
+
+1. 建立目標資料夾  /etc/nginx/ssl 
+首先，確認 /etc/nginx/ssl 資料夾已經存在。如果不存在，則需要建立它：
+```bash
+sudo mkdir -p /etc/nginx/ssl
+```
+
+
+2. 將檔案移動到 /etc/nginx/ssl
+假設你現在的 certificate.crt、ca_bundle.crt 和 private.key 位於 /home/ubuntu 目錄中，使用以下命令將它們移動到 /etc/nginx/ssl 資料夾：
+```bash
+sudo mv /home/ubuntu/certificate.crt /etc/nginx/ssl/
+sudo mv /home/ubuntu/ca_bundle.crt /etc/nginx/ssl/
+sudo mv /home/ubuntu/private.key /etc/nginx/ssl/
+```
+3. 設置正確的檔案權限
+確保 Nginx 可以讀取這些檔案，並且私鑰的權限正確。可以設置以下權限：
+```bash
+sudo chmod 600 /etc/nginx/ssl/private.key
+sudo chmod 644 /etc/nginx/ssl/certificate.crt
+sudo chmod 644 /etc/nginx/ssl/ca_bundle.crt
+```
+4. 修改 /etc/nginx/sites-available/app 的內容，設定 將憑證安裝至 AWS EC2 instance 的 Nginx 裡
+```
+# HTTP server -> HTTPS
+
+server {
+    listen 80;
+    server_name www.gocloud.agency;
+
+    # 將所有 HTTP 請求重定向到 HTTPS
+    return 301 https://$host$request_uri;
+}
+
+
+# HTTPS 伺服器
+server {
+    listen 443 ssl;
+    server_name gocloud.agency www.gocloud.agency;  # 你的域名
+
+    # 設定 SSL 憑證
+    ssl_certificate /etc/nginx/ssl/certificate.crt;
+    ssl_certificate_key /etc/nginx/ssl/private.key;
+    ssl_trusted_certificate /etc/nginx/ssl/ca_bundle.crt;
+
+    ssl_protocols TLSv1.2 TLSv1.3;
+    ssl_ciphers HIGH:!aNULL:!MD5;
+
+    location / {
+        proxy_pass http://localhost:3000;  # 將請求代理到本地的 Express 應用
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_cache_bypass $http_upgrade;
+    }
+}
+
+
+```
+
+       
 - [x] 4. 將憑證安裝至 AWS EC2 instance 的 Nginx 裡
+
+確保 Express 可以正常開啟 ， EC2 inbounds 有正確設定 port ， nginx 狀態正常
+
+
 
 ## 在 /week-05/readme.md 中回答以下問題：
 
@@ -16,6 +98,9 @@
       架設的 Express server （由 Nginx proxy 到 Express）
    
   https://www.gocloud.agency
+
+![image](https://github.com/user-attachments/assets/6dd53e1a-e97f-4805-b46f-0cc6550fba24)
+
 
 - [x] 2. 你在哪裡購買網域的？
 
