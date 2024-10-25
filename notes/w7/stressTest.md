@@ -94,6 +94,15 @@ htop
 在 `htop` 的視窗中，查看 `CPU` 和 `Memory` 使用率，並特別關注 PHP 和 Node.js 的 process。
 
 
+### 6. 撰寫 shell script 測試
+
+新增 test.sh
+```bash
+   vim test.sh
+```
+
+撰寫 test.sh
+
 ```bash
 #!/bin/bash
 
@@ -121,7 +130,22 @@ for i in "${!paths[@]}"; do
 done
 ```
 
-### 6. 實驗心得
+執行
+
+```bash
+   sudo chmod +x test.sh
+   ./test.sh
+```
+
+
+### 7. 實驗結果
+![false requests PHP vs NodeJS ](https://github.com/user-attachments/assets/54511755-1ee3-4943-921e-2cfe0a497c98)
+
+
+![requests per second  PHP vs NodeJS ](https://github.com/user-attachments/assets/4eb2de37-1d49-4997-912a-2bf1ee8bdf03)
+
+
+### 8. 實驗心得
 
 1. 請求處理性能
 
@@ -150,9 +174,6 @@ Node.js 更適合高 concurrent 需求的應用，如即時通訊、聊天應用
 
 
 
-
-
-
-#### 參考資料
+### 9. 參考資料
 
 [小賴老師 20241024 簡報](https://docs.google.com/presentation/d/12D9R3R-SfpZtNKejVRGCp8EOiDJRIwk60uihUItebRs/edit#slide=id.g3057d3264ef_1_914)
