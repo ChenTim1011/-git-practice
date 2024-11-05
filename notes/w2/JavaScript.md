@@ -394,31 +394,6 @@ console.log(1 == '1');   // true，JavaScript 將字串 '1' 隱式轉換為數�
    ```
 ---
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-___
-
 ## 參考資料
 
 -[Javascript](https://javascript.info/)

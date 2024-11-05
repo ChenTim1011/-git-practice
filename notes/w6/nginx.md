@@ -1,8 +1,41 @@
-### NGINX 運行過程
+### Nginx 的應用場景
+
+1. 靜態內容服務：Nginx 可高效提供靜態資源，如圖片、CSS、JavaScript 等。
+
+2. 反向代理：Nginx 可作為反向代理，將客戶端請求轉發至後端伺服器，並返回回應給客戶端。
+
+3. 負載均衡：Nginx 可將請求分配至多個後端伺服器，實現負載均衡，提升系統的可用性和擴展性。
+
+4. HTTP 快取：Nginx 可作為 HTTP 快取，加速內容傳遞，減少後端伺服器的負載。
+
+5. 安全控制：Nginx 支援 SSL/TLS，加強網站的安全性，並可進行存取控制和限制。
+
+### Nginx 的工作原理
+
+當客戶端發送請求至 Nginx 伺服器時，Nginx 的處理流程如下：
+
+1. Accept Connections：主程式監聽指定的 port ，接受客戶端的連線請求。
+
+2. Assign Worker Processes：主程式將新連線分配給空閒的工作程式，或根據負載均衡策略進行分配。
+
+3. Process Request ：工作程式接收連線後，讀取請求並傳遞給相應的處理模組。
+根據設定，Nginx 可處理靜態檔案、代理請求、負載平衡等任務。
+
+4. Generate Response：處理模組根據請求生成相應的回應，並將其發送回客戶端。
+
+5. Close Connection：請求完成後，連線可保持活動狀態以便重用，或被關閉以釋放資源。
+
+
+ 
+
+
+
+
+### Nginx 運行過程
 - **Master 和 Worker Processes**：NGINX 在運行時啟動一個 main process 和多個 worker processes 。main process 負責加載和管理設定文件、維護工作 process，而 worker processes 實際處理請求。
 worker processes 的數量可在 `nginx.conf` 中設置，可以固定或隨 CPU 核心數自動調整。
 
-### 控制 NGINX
+### 控制 Nginx
 - **使用訊號控制**：可以通過 `nginx -s <SIGNAL>` 來控制 main process，其中 `<SIGNAL>` 可選擇：
   - `quit`
   - `reload`
@@ -10,9 +43,9 @@ worker processes 的數量可在 `nginx.conf` 中設置，可以固定或隨 CPU
   - `stop`
 
 
-### 建立 NGINX Plus 和 NGINX 設定檔
+### 建立 Nginx Plus 和 Nginx 設定檔
 
-NGINX 和 NGINX Plus 使用純文字的設定檔，格式與其他服務相似。預設檔案名稱為 `nginx.conf`，在 NGINX Plus 中位於 `/etc/nginx` 
+Nginx 和 Nginx Plus 使用純文字的設定檔，格式與其他服務相似。預設檔案名稱為 `nginx.conf`，在 Nginx Plus 中位於 `/etc/nginx` 
 
 #### 指令（Directives）
 設定檔由指令及其參數組成。簡單的（單行）指令結尾需加上分號（`;`）。
@@ -96,7 +129,9 @@ stream {
 若需使設定檔的變更生效，必須重新載入設定檔。可以重啟 nginx 進程，或發送 `reload` 更新設定。
 
 
+#####
+
 
 ### 參考資料
-[Controlling NGINX Processes at Runtime](https://docs.nginx.com/nginx/admin-guide/basic-functionality/runtime-control/)
-[Creating NGINX Plus and NGINX Configuration Files](https://docs.nginx.com/nginx/admin-guide/basic-functionality/managing-configuration-files/)
+[Controlling Nginx Processes at Runtime](https://docs.nginx.com/nginx/admin-guide/basic-functionality/runtime-control/)
+[Creating Nginx Plus and Nginx Configuration Files](https://docs.nginx.com/nginx/admin-guide/basic-functionality/managing-configuration-files/)
