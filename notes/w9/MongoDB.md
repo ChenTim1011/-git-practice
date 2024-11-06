@@ -610,3 +610,102 @@ db.customers.createIndex({ 'address.zipcode': 1 }, { sparse: true });
 例如，搜尋特定年齡的文件、依照標題排序的文章或透過 email 查找使用者資料。
 運用單一欄位索引可以顯著提升這些常見操作的效能。
 
+## 複合索引
+
+在 MongoDB 中，「複合索引」是一種可以在單一索引中指定多個欄位的索引。
+這樣的索引可以在多個欄位的組合值上建立索引，適合需要在多欄位上查詢的情境，
+有助於提升查詢效能，讓 MongoDB 在大量資料集中也能快速找到結果。
+
+## 結構
+建立複合索引時，可以指定每個欄位的排序順序（升序 `1` 或降序 `-1`）。格式如下：
+
+```javascript
+{
+    field1: <排序順序>,
+    field2: <排序順序>,
+    ...
+}
+```
+
+例如，要建立一個在 `author` 欄位升序、`title` 欄位降序的複合索引，可以這樣寫：
+
+```javascript
+db.books.createIndex({ author: 1, title: -1 });
+```
+
+## 使用注意事項
+使用複合索引時，建議考慮以下幾點：
+
+1. **前綴（Prefixes）**：複合索引可以支援其「前綴」的查詢，也就是從左邊開始的欄位組合。
+例如，若有 `{ author: 1, title: -1 }` 的複合索引，則可以支援只查 `author` 欄位，
+或同時查 `author` 和 `title` 欄位的查詢。
+
+2. **排序順序**：欄位的排序順序會影響查詢效能，最好依據應用程式的查詢模式來決定欄位順序。
+
+3. **覆蓋查詢（Covered Queries）**：當查詢使用的所有欄位都在索引中時，MongoDB 可以僅透過索引完成查詢，而無需存取文件本身，大幅提升查詢速度。
+
+## 使用範例
+假設有一個名為 `books` 的集合，裡面有以下文件：
+
+```javascript
+{ "_id" : ObjectId("..."), "author" : "John Smith", "title" : "Introduction to MongoDB", "year" : 2020 }
+{ "_id" : ObjectId("..."), "author" : "Jane Doe", "title" : "Advanced MongoDB", "year" : 2021 }
+{ "_id" : ObjectId("..."), "author" : "John Smith", "title" : "MongoDB for Experts", "year" : 2021 }
+```
+
+你可以使用以下指令為 `author` 和 `title` 欄位建立複合索引：
+
+```javascript
+db.books.createIndex({ author: 1, title: 1 });
+```
+
+有了這個複合索引後，MongoDB 可以更高效地執行涉及 `author` 和 `title` 欄位的查詢。例如：
+
+```javascript
+db.books.find({ author: 'John Smith', title: 'Introduction to MongoDB' });
+```
+
+此外，也可以利用這個索引來排序查詢結果：
+
+```javascript
+db.books.find({ author: 'John Smith' }).sort({ title: 1 });
+```
+
+## 文字索引
+
+在 MongoDB 中，「文字索引」（Text Index）是一個強大的功能，可以讓你在文件內進行文字內容的搜尋，
+非常適合需要搜尋字串內容或進行文字分析的情境。透過文字索引，你可以輕鬆地搜尋關鍵字、片語，甚至是複雜的查詢表達式。
+
+要建立文字索引，可以使用 `db.collection.createIndex()`，並指定欄位為特殊的 `"text"` 類型。例如，若要在 `books` 集合中的 `title` 欄位建立文字索引，可以這樣操作：
+
+```javascript
+db.books.createIndex({ title: 'text' });
+```
+
+## 進行文字搜尋
+
+建立文字索引後，就可以使用 `$text` 運算符來查詢文字內容。例如，查找所有 `title` 欄位中包含「mongodb」或「guide」的書籍，可以這樣寫：
+
+```javascript
+db.books.find({ $text: { $search: 'mongodb guide' } });
+```
+
+## 進階搜尋選項
+MongoDB 提供了幾個進階選項來細化文字搜尋：
+
+- **$language**：指定搜尋語言，這可以幫助語詞詞幹處理（例如變化詞）並忽略停用詞。
+- **$caseSensitive**：設定是否區分大小寫（預設為 `false`，即不區分大小寫）。
+- **$diacriticSensitive**：設定是否區分重音符號（預設為 `false`，即不區分重音符號）。
+
+## 刪除文字索引
+若不再需要文字索引，可以使用 `db.collection.dropIndex()` 刪除。只需提供索引名稱作為參數，
+
+```javascript
+db.books.dropIndex('title_text');
+```
+
+## 注意事項
+文字索引在 MongoDB 中是一種非常高效的搜尋方式，能讓你更輕鬆地分析和定位特定資訊。
+然而，由於文字索引會影響寫入效能，因此建議適量使用，避免不必要的效能影響。
+
+
