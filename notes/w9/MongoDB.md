@@ -418,7 +418,7 @@ Collection 就像是一個容器，用來組織和儲存文件。你可以把它
 
 可以設定 collection 的選項，例如 `capped`（限制 collection ）、大小和最大文件數量。
 
-### 管理 collection 的方法
+## 管理 collection 的方法
 
 - **插入文件**：用 `insertOne()` 或 `insertMany()` 插入文件，例如：
   
@@ -461,7 +461,7 @@ Collection 就像是一個容器，用來組織和儲存文件。你可以把它
 
 
 
-### Query Operators
+## Query Operators
 
 MongoDB 的查詢運算符號可以讓我們更靈活地搜尋和操作集合中的文件。
 
@@ -478,7 +478,7 @@ MongoDB 的查詢運算符號可以讓我們更靈活地搜尋和操作集合中
 - **$in**：配對欄位值在指定陣列中的文件。
 - **$nin**：配對欄位值不在指定陣列中的文件。
 
-### 邏輯運算符號 (Logical Operators)
+## 邏輯運算符號 (Logical Operators)
 邏輯運算符用來組合多個查詢條件，常見的有：
 
 - **$and**：配對所有指定條件都為真的文件。
@@ -486,13 +486,13 @@ MongoDB 的查詢運算符號可以讓我們更靈活地搜尋和操作集合中
 - **$not**：配對條件不為真的文件。
 - **$nor**：配對所有指定條件都不為真的文件。
 
-### 元素運算符號 (Element Operators)
+## 元素運算符號 (Element Operators)
 元素運算符專門用於篩選文件中特定的元素，包括：
 
 - **$exists**：配對包含指定欄位的文件。
 - **$type**：配對指定欄位的 BSON 類型為指定類型的文件。
 
-### 評估運算符號 (Evaluation Operators)
+## 評估運算符號 (Evaluation Operators)
 評估運算符用於對特定欄位和值進行操作，比如正則表達式查詢或檢查陣列大小。常見的有：
 
 - **$expr**：允許在查詢語句中使用聚合運算式。
@@ -502,17 +502,111 @@ MongoDB 的查詢運算符號可以讓我們更靈活地搜尋和操作集合中
 - **$text**：在文件的索引欄位內容上進行全文檢索。
 - **$where**：配對滿足指定 JavaScript 表達式的文件。
 
-### 陣列運算符號 (Array Operators)
+## 陣列運算符號 (Array Operators)
 陣列運算符用於處理包含陣列的文件，常見的包括：
 
 - **$all**：配對陣列欄位包含所有指定值的文件。
 - **$elemMatch**：配對陣列欄位至少有一個元素符合指定條件的文件。
 - **$size**：配對陣列欄位具有指定元素數量的文件。
 
-### 位元運算符號 (Bitwise Operators)
+## 位元運算符號 (Bitwise Operators)
 位元運算符用於對整數值進行位元操作，常見的有：
 
 - **$bitsAllClear**：配對指定欄位所有位元在位元遮罩中都為清除狀態（0）的文件。
 - **$bitsAllSet**：配對指定欄位所有位元在位元遮罩中都為設置狀態（1）的文件。
 - **$bitsAnyClear**：配對指定欄位任一位元在位元遮罩中為清除狀態（0）的文件。
 - **$bitsAnySet**：配對指定欄位任一位元在位元遮罩中為設置狀態（1）的文件。
+
+
+
+## Index
+
+透過索引和查詢優化，MongoDB 可以大大提升查詢速度和效能。不論是單欄位索引、複合索引還是 Atlas Search 索引，這些都讓 MongoDB 更加高效靈活。善用這些技巧，就能充分發揮 MongoDB 的資料處理威力！
+
+索引（Indexes）在 MongoDB 中就像書本的目錄，可以讓我們更快速地找到特定資料，而不需要翻遍所有內容。
+
+## 索引類型
+MongoDB 支援多種索引類型：
+
+1. **Single Field Index**：僅基於文件中的一個欄位來建立索引。
+2. **Compound Index**：基於多個欄位來建立的索引。
+3. **Multikey Index**：當欄位包含陣列時，用多鍵索引來索引每個值。
+4. **Text Index**：支援文字搜尋查詢，可以在字串內容上進行搜尋。
+5. **2dsphereindex**：支援地理空間查詢，用於球面資料的定位。
+6. **2dindex**：支援平面地理空間查詢。
+
+MongoDB 的索引基本上是一種資料結構，儲存了文件中的資料副本和引用，
+並且以有效的方式進行儲存。這讓 MongoDB 可以更快找到文件中基於某欄位的內容。
+
+## Atlas Search 索引
+在 MongoDB Atlas 上，可以使用 Atlas Search 索引來增強文字搜尋功能。這些索引利用開源的搜尋引擎 Apache Lucene，能夠在 MongoDB 環境中進行高效的全文搜尋、篩選及評分操作，提升搜尋的靈活性。
+
+## 查詢最佳化
+查詢最佳化是 MongoDB 中的一個重要環節，能確保資料的搜尋快速有效。MongoDB 的查詢優化器會自動選擇最佳的查詢計劃，
+以減少文件的掃描數量，進而縮短執行時間。查詢最佳化的重點就是盡量降低 MongoDB 需要讀取的文件數量，讓查詢跑得又快又順。
+
+## 如何建立索引
+要在欄位上建立索引，可以使用 `createIndex()` 方法。
+以下是例子，為 `whiteboards` 集合的 `whiteboardTitle` 欄位建立升序索引：
+
+```javascript
+db.whiteboards.createIndex({ whiteboardTitle: 1 });
+```
+`1` 表示使用升序排列索引，若要降序排列，可以使用 `-1`。也可以建立複合索引，例如：
+
+```javascript
+db.whiteboards.createIndex({ _id: 1, whiteboardTitle: 1 });
+```
+## 使用索引
+建立索引後，MongoDB 在查詢時會自動使用適合的索引來最佳化查詢。
+若要查看某查詢使用的索引，可以用 `explain()` 方法：
+
+```javascript
+db.whiteboards.find({ whiteboardTitle: 'practice' }).explain();
+```
+
+這會顯示查詢執行的詳細資訊，包括使用了哪些索引。
+
+## 索引管理
+你可以使用以下方法來管理索引：
+
+- 列出集合中的所有索引：`db.COLLECTION_NAME.getIndexes()`
+- 刪除特定索引：`db.COLLECTION_NAME.dropIndex(INDEX_NAME)`
+- 刪除所有索引：`db.COLLECTION_NAME.dropIndexes()`
+
+## 限制與注意事項
+雖然索引能提升查詢效能，但也有一些小缺點需要注意：
+
+- **儲存空間**：索引會佔用儲存空間，索引太多可能影響容量。
+- **寫入效能**：寫入時需要更新索引，所以過多的索引會拖慢寫入速度。
+- **慎選索引**：選擇索引時需考量查詢需求，避免不必要的索引。
+
+
+## 單一欄位索引
+
+在 MongoDB 中，「單一欄位索引」是一種只針對文件中的單一欄位進行排序和組織的索引。
+它可以用於頂層欄位或嵌入文件中的子欄位。單一欄位索引的目的是加快查詢速度，讓查詢特定欄位值的文件更快速。
+
+## 唯一的單一欄位索引
+你可以設置單一欄位索引為「唯一」，來防止重複的值插入到某個欄位中。要建立唯一索引，加入 `unique` 選項並設為 `true`：
+
+```javascript
+db.users.createIndex({ email: 1 }, { unique: true });
+```
+
+這樣就確保了每個文件的 `email` 欄位值是唯一的，避免重複。
+
+## 稀疏的單一欄位索引
+稀疏索引只會為那些包含被索引欄位的文件建立索引，不會涵蓋整個集合。這樣可以縮小索引大小，提高效能。要建立稀疏索引，加入 `sparse` 選項並設為 `true`：
+
+```javascript
+db.customers.createIndex({ 'address.zipcode': 1 }, { sparse: true });
+```
+
+這段程式碼會在 `address` 子文件的 `zipcode` 欄位上建立稀疏索引，只對有 `zipcode` 的文件進行索引。
+
+## 使用情境
+單一欄位索引特別適合那些經常需要針對特定欄位進行搜尋、排序或篩選的情境。
+例如，搜尋特定年齡的文件、依照標題排序的文章或透過 email 查找使用者資料。
+運用單一欄位索引可以顯著提升這些常見操作的效能。
+
