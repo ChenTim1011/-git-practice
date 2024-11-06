@@ -182,4 +182,173 @@ JSON 是一種輕量且可讀性強的資料表示格式，許多程式語言都
 - **資料類型有限**：JSON 支援的資料類型較少，比如字串、數字、布林值和 null。這意味著像日期或二進位資料這類類型，必須以字串或自定義物件的方式表示。
 
 
+## 什麼是嵌入文件陣列？
+
+Embedded Documents Arrays 是在需要表示「一對多」或「層次結構」的資料關係時使用的結構。它讓我們可以直接將相關的文件嵌入在主要文件裡，利用陣列的方式來儲存，而不是建立多個集合並使用引用來連結資料。
+
+例如，下方的文件包含一個嵌入的地址陣列，儲存了多筆地址資訊：
+
+```json
+{
+    _id: 1,
+    name: 'John Doe',
+    addresses: [
+        {
+            street: '123 Main St',
+            city: 'New York',
+            zipcode: '10001'
+        },
+        {
+            street: '456 Broadway',
+            city: 'Los Angeles',
+            zipcode: '90001'
+        }
+    ]
+}
+```
+
+## 嵌入文件陣列的優點
+
+1. **讀寫效能高**：因為相關資料存放在同一個文件中，查詢和寫入操作可以一次性完成，不需要多次查詢或更新。
+   
+2. **資料一致性**：把相關資料存一起，能確保資料的一致性，不需要透過「JOIN」或跨文件的引用來同步更新。
+   
+3. **可擴充性**：嵌入文件可以一層層嵌套，方便我們表現複雜的資料結構，同時保持結構靈活且效能高。
+
+## 什麼時候應該使用嵌入文件陣列？
+
+- 需要表達一對多的關係
+- 嵌入的資料不會無限制成長
+- 嵌入的資料與主要文件有關聯性
+- 希望改善讀寫效能
+
+不過要注意，MongoDB 每個文件有 16MB 的大小限制，所以如果預期嵌入的資料會隨著時間增加過多，
+建議使用獨立的集合並採用引用方式來儲存資料。
+
+## 查詢嵌入文件陣列
+
+MongoDB 提供許多陣列查詢運算符號，例如 `$elemMatch`、`$all` 和 `$size`，
+讓我們可以很方便地查詢和更新嵌入文件中的資料，也可以透過「點標記法」來指定特定的子文件欄位。
+
+例如，查詢所有地址包含「123 Main St」的使用者，可以這樣撰寫：
+
+```javascript
+db.users.find({ 'addresses.street': '123 Main St' });
+```
+
+嵌入文件陣列讓 MongoDB 在管理複雜的資料關係時依然能保持高效和靈活。
+但使用時需考量資料的增長情況，才能發揮 MongoDB 的彈性和擴展性。
+
+
+## MongoDB 常見資料型態
+
+在 MongoDB 中，資料是以 BSON 格式儲存，BSON 支援多種資料型態。
+
+1. **ObjectId**
+   - ObjectId 是 12 位元的唯一識別碼，用來作為文件的 `_id` 欄位的預設值，確保在集合中的每筆文件都有唯一性。
+
+2. **String**
+   - 用來儲存文字資料，必須是有效的 UTF-8 編碼字串。
+   - 例如：`{ "name": "John Doe" }`
+
+3. **Boolean**
+   - 用來儲存布林值，即 `true` 或 `false`。
+   - 例如：`{ "isActive": true }`
+
+4. **Integer**
+   - 用來儲存整數，MongoDB 支援兩種整數型態：32 位元（int）和 64 位元（long）。
+   - 例如：`{ "age": 28 }`
+
+5. **Double**
+   - 用來儲存浮點數，即有小數點的數值。
+   - 例如：`{ "price": 12.99 }`
+
+6. **Date**
+   - 用來儲存日期和時間，以 Unix 時間格式（從 1970 年 1 月 1 日起的毫秒時間戳記）儲存。
+   - 例如：`{ "createdAt": ISODate("2019-02-18T19:29:22.381Z") }`
+
+7. **Array**
+   - 用來儲存一組值的列表，列表中的值可以是不同的資料型態。
+   - 例如：`{ "tags": ["mongodb", "database", "noSQL"] }`
+
+8. **Object**
+   - 用來儲存嵌入的文件，即文件中可以包含其他子文件，這是一種方便的資料嵌套方式。
+   - 例如：`{ "address": { "street": "123 Main St", "city": "San Francisco", "state": "CA" } }`
+
+9. **Null**
+   - 用來儲存空值，表示該欄位沒有值。
+   - 例如：`{ "middleName": null }`
+
+10. **Binary Data**
+    - 用來儲存二進位資料或位元組陣列。
+    - 例如：`{ "data": BinData(0, "c3VyZS4=") }`
+
+11. **Code** (比較特別)
+    - 用來儲存 JavaScript 程式碼。
+    - 例如：`{ "script": Code("function() { return 'Hello, World!'; }") }`
+
+12. **Regular Expression** (比較特別)
+    - 用來儲存正則表達式。
+    - 例如：`{ "pattern": /^mongodb/i }`
+
+
+### MongoDB Code Datatype 
+
+
+例如可以用 JavaScript 當作是資料型態，可以直接在資料庫內儲存和操作程式碼。
+這特別適合需要更高彈性、無法用標準 BSON 資料型態處理的複雜資料結構。
+
+你可以將 JavaScript 程式碼以字串方式直接儲存在 MongoDB 裡，或在 MongoDB 的 `mongo` 指令操作台和伺服器上執行 JavaScript 函數。儲存 JavaScript 的方式有兩種：透過 Code BSON 資料型態
+或 `$function` （4.4 版加入的功能）來實做。
+
+#### 儲存 JavaScript 範例
+用 Code BSON 資料型態來儲存簡單的函數：
+```javascript
+db.scripts.insert({
+  name: 'helloWorld',
+  code: new Code("function() { return 'Hello World!'; }"),
+});       
+```
+或者也可以用 `$function` 來計算體積：
+```javascript
+db.collection.aggregate([
+  {               
+    $addFields: {
+      volume: {
+        $function: {
+          body: 'function(l, w, h) { return l * w * h; }',
+          args: ['$length', '$width', '$height'],
+          lang: 'js',
+        },
+      },
+    },
+  },
+]);
+```
+
+### 使用 JavaScript 和 Map-Reduce
+你也可以透過 MongoDB 的 Map-Reduce 使用 JavaScript 函數。
+Map-Reduce 是處理大型資料集的方法，它透過「map 函數」逐漸處理文件，再透過「reduce 函數」匯總結果。
+使用 JavaScript 可以大大增加 Map-Reduce 的靈活性和表現力。
+
+Map-Reduce 使用 JavaScript 的例子：
+```javascript
+var map = function () {
+  emit(this.category, this.price);
+};
+
+var reduce = function (key, values) {
+  return Array.sum(values);
+};
+
+db.products.mapReduce(map, reduce, { out: 'total_by_category' });
+```
+
+### 限制
+雖然 JavaScript 在 MongoDB 中非常靈活，但也有一些限制：
+
+1. **效能**：相比 BSON 的原生查詢，JavaScript 的執行速度較慢，不適合高效能需求的應用。
+2. **並行性**：MongoDB 的 JavaScript 執行是單執行緒，可能導致並行量降低，若多個操作依賴 JavaScript 執行，會有阻塞風險。
+3. **安全性**：儲存和執行 JavaScript 有潛在的安全風險，例如可能受到程式碼注入攻擊。務必做好驗證和角色管理來降低風險。
+
 
