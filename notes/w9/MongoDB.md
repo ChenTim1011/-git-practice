@@ -61,7 +61,7 @@ MongoDB 是一個開源、基於文件的跨平台 NoSQL 資料庫，提供高�
 
 - **Aggregation**：MongoDB 提供強大的聚合框架，能執行複雜的資料操作，如轉換、過濾和排序。
 
-- **Support for ad hoc queries**：MongoDB 支持通過字段、範圍和正則表達式來進行靈活的資料查詢。
+- **Support for ad hoc queries**：MongoDB 支持通過字段、範圍和正規表達式來進行靈活的資料查詢。
 
 ## 什麼時候使用 MongoDB
 
@@ -87,7 +87,7 @@ MongoDB 是一個開源、基於文件的跨平台 NoSQL 資料庫，提供高�
 
 - **集合（Collection）**：一組相關的文件，類似於關聯式資料庫中的表格。
 
-- **文件（Document）**：集合中的單一記錄，由多個欄位組成，類似於關聯式資料庫中的「一行資料」。然而，與關聯式資料庫不同，MongoDB 的文件沒有強制的結構或 schema。
+- **文件（Document）**： collection 中的單一記錄，由多個欄位組成，類似於關聯式資料庫中的「一行資料」。然而，與關聯式資料庫不同，MongoDB 的文件沒有強制的結構或 schema。
 
 - **欄位（Field）**：文件中的一個鍵值對，類似於表格中的一個欄位。
 
@@ -96,11 +96,11 @@ MongoDB 是一個開源、基於文件的跨平台 NoSQL 資料庫，提供高�
 - **索引（Index）**：索引是用來加速常見查詢操作的資料結構。索引將部分資料儲存在一個有序的結構中，
 讓 MongoDB 能更快速地搜尋和排序文件，減少掃描的資料量。
 
-- **查詢（Query)**：查詢是用來從資料庫中搜尋資料。它可以根據特定條件從集合中獲取指定的文件或部分文件。
+- **查詢（Query)**：查詢是用來從資料庫中搜尋資料。它可以根據特定條件從 collection 中獲取指定的文件或部分文件。
 
-- **游標（Cursor）**：游標是一個指向查詢結果集合的指標。它讓開發者能夠逐個處理查詢結果中的文件。
+- **游標（Cursor）**：游標是一個指向查詢結果 collection 的指標。它讓開發者能夠逐個處理查詢結果中的文件。
 
-- **聚合（Aggregation）**：聚合是對集合中儲存的資料進行彙總和轉換的過程。它用來執行複雜的分析操作，或生成資料摘要報告。
+- **聚合（Aggregation）**：聚合是對 collection 中儲存的資料進行彙總和轉換的過程。它用來執行複雜的分析操作，或生成資料摘要報告。
 
 - **複製集（Replica Set）**：複製集是指一組 MongoDB 實體，這些實例會維護相同的資料集。這提供了資料冗餘、高可用性，並能在主要節點無法存取時自動切換到次要節點。
 
@@ -110,17 +110,17 @@ MongoDB 是一個開源、基於文件的跨平台 NoSQL 資料庫，提供高�
 
 - **插入（Insert）**：插入一筆資料用 `db.collection.insertOne()`，插入多筆資料用 `db.collection.insertMany()`。
 
-- **查詢（Find）**：用 `db.collection.find()` 從集合中查詢資料，並用查詢條件來篩選，例如 `{field: value}`。如果只需要查一筆資料，可以用 `db.collection.findOne()`。
+- **查詢（Find）**：用 `db.collection.find()` 從 collection 中查詢資料，並用查詢條件來篩選，例如 `{field: value}`。如果只需要查一筆資料，可以用 `db.collection.findOne()`。
 
 - **更新（Update）**：用 `$set` 和 `$unset` 這類更新操作符來更新欄位，使用 `db.collection.updateOne()` 或 `db.collection.updateMany()` 可以更新一筆或多筆資料。
 
 - **刪除（Delete）**：用 `db.collection.deleteOne()` 或 `db.collection.deleteMany()` 來刪除一筆或多筆資料，根據給定的條件。
 
-- **刪除集合或資料庫（Drop）**：用 `db.collection.drop()` 刪除集合，或用 `db.dropDatabase()` 刪除整個資料庫。
+- **刪除 collection 或資料庫（Drop）**：用 `db.collection.drop()` 刪除 collection ，或用 `db.dropDatabase()` 刪除整個資料庫。
 
 ## 索引和聚合
 
-- **索引（Indexes）**：在集合的欄位上建立索引（用 `db.collection.createIndex()`），可以加快搜尋速度。如果需要查詢多個欄位，也可以建立複合索引。
+- **索引（Indexes）**：在 collection 的欄位上建立索引（用 `db.collection.createIndex()`），可以加快搜尋速度。如果需要查詢多個欄位，也可以建立複合索引。
 
 - **聚合（Aggregations）**：執行更複雜的資料處理任務，比如篩選、分組、轉換和排序，可以使用像 `$match`、`$group`、`$project` 和 `$sort` 這類聚合操作。
 
@@ -184,7 +184,7 @@ JSON 是一種輕量且可讀性強的資料表示格式，許多程式語言都
 
 ## 什麼是嵌入文件陣列？
 
-Embedded Documents Arrays 是在需要表示「一對多」或「層次結構」的資料關係時使用的結構。它讓我們可以直接將相關的文件嵌入在主要文件裡，利用陣列的方式來儲存，而不是建立多個集合並使用引用來連結資料。
+Embedded Documents Arrays 是在需要表示「一對多」或「層次結構」的資料關係時使用的結構。它讓我們可以直接將相關的文件嵌入在主要文件裡，利用陣列的方式來儲存，而不是建立多個 collection 並使用引用來連結資料。
 
 例如，下方的文件包含一個嵌入的地址陣列，儲存了多筆地址資訊：
 
@@ -223,7 +223,7 @@ Embedded Documents Arrays 是在需要表示「一對多」或「層次結構」
 - 希望改善讀寫效能
 
 不過要注意，MongoDB 每個文件有 16MB 的大小限制，所以如果預期嵌入的資料會隨著時間增加過多，
-建議使用獨立的集合並採用引用方式來儲存資料。
+建議使用獨立的 collection 並採用引用方式來儲存資料。
 
 ## 查詢嵌入文件陣列
 
@@ -245,7 +245,7 @@ db.users.find({ 'addresses.street': '123 Main St' });
 在 MongoDB 中，資料是以 BSON 格式儲存，BSON 支援多種資料型態。
 
 1. **ObjectId**
-   - ObjectId 是 12 位元的唯一識別碼，用來作為文件的 `_id` 欄位的預設值，確保在集合中的每筆文件都有唯一性。
+   - ObjectId 是 12 位元的唯一識別碼，用來作為文件的 `_id` 欄位的預設值，確保在 collection 中的每筆文件都有唯一性。
 
 2. **String**
    - 用來儲存文字資料，必須是有效的 UTF-8 編碼字串。
@@ -288,11 +288,11 @@ db.users.find({ 'addresses.street': '123 Main St' });
     - 例如：`{ "script": Code("function() { return 'Hello, World!'; }") }`
 
 12. **Regular Expression** (比較特別)
-    - 用來儲存正則表達式。
+    - 用來儲存正規表達式。
     - 例如：`{ "pattern": /^mongodb/i }`
 
 
-### MongoDB Code Datatype 
+## MongoDB Code Datatype 
 
 
 例如可以用 JavaScript 當作是資料型態，可以直接在資料庫內儲存和操作程式碼。
@@ -301,7 +301,8 @@ db.users.find({ 'addresses.street': '123 Main St' });
 你可以將 JavaScript 程式碼以字串方式直接儲存在 MongoDB 裡，或在 MongoDB 的 `mongo` 指令操作台和伺服器上執行 JavaScript 函數。儲存 JavaScript 的方式有兩種：透過 Code BSON 資料型態
 或 `$function` （4.4 版加入的功能）來實做。
 
-#### 儲存 JavaScript 範例
+## 儲存 JavaScript 範例
+
 用 Code BSON 資料型態來儲存簡單的函數：
 ```javascript
 db.scripts.insert({
@@ -327,7 +328,8 @@ db.collection.aggregate([
 ```
 
 ### 使用 JavaScript 和 Map-Reduce
-你也可以透過 MongoDB 的 Map-Reduce 使用 JavaScript 函數。
+
+MongoDB 的 Map-Reduce 可以使用 JavaScript 函數。
 Map-Reduce 是處理大型資料集的方法，它透過「map 函數」逐漸處理文件，再透過「reduce 函數」匯總結果。
 使用 JavaScript 可以大大增加 Map-Reduce 的靈活性和表現力。
 
@@ -345,10 +347,172 @@ db.products.mapReduce(map, reduce, { out: 'total_by_category' });
 ```
 
 ### 限制
-雖然 JavaScript 在 MongoDB 中非常靈活，但也有一些限制：
 
 1. **效能**：相比 BSON 的原生查詢，JavaScript 的執行速度較慢，不適合高效能需求的應用。
 2. **並行性**：MongoDB 的 JavaScript 執行是單執行緒，可能導致並行量降低，若多個操作依賴 JavaScript 執行，會有阻塞風險。
 3. **安全性**：儲存和執行 JavaScript 有潛在的安全風險，例如可能受到程式碼注入攻擊。務必做好驗證和角色管理來降低風險。
 
 
+## MongoDB 中的正規表達式
+
+正規表達式用來在文字字串中搜尋特定的模式。正規表達式特別適合處理文字資料，或是在查詢時不要求完全符合的情況下使用。
+
+1. **JavaScript 正規表達式語法**：用 `/pattern/flags`，例如 `/example/i`，其中 `i` 代表忽略大小寫。
+
+2. **BSON 類型的 RegExp**：用 `new RegExp('pattern', 'flags')`，例如 `new RegExp('example', 'i')`。
+
+
+```javascript
+// 找出包含 'NCCU' 的文件，忽略大小寫
+var regex = /NCCU/i; // JavaScript 正規語法
+var bsonRegex = new RegExp('NCCU', 'i'); // BSON 正規語法
+```
+
+## 使用正規表達式進行查詢
+使用 `$regex` 或直接使用正規表達式來進行查詢：
+
+```javascript
+db.collection.find({ field: /NCCU/i }); // 直接用正規表達式
+db.collection.find({ field: { $regex: /NCCU/i } }); // 用 $regex 運算符
+```
+
+## 正規表達式的標誌（Flags )
+MongoDB 支援多種標誌，可以讓你的比對更靈活：
+
+- `i`：忽略大小寫
+- `m`：多行比對
+- `x`：忽略模式中的空白和註解
+- `s`：允許 `.` 比對所有字元，包括換行符
+
+例如，進行忽略大小寫且多行比對的查詢：
+
+```javascript
+db.collection.find({ field: { $regex: /NCCU/im } });
+```
+
+## 特殊字元的跳脫
+在正規表達式中，有些字元具有特殊意義，如 `.`（比對任意字元）、`*`（比對零或多個重複）。
+若要搜尋這些字元的字面意義，要使用反斜線 `\` 跳脫。
+```javascript
+db.collection.find({ field: /www.google\.com/i }); // 尋找 'www.google.com'
+```
+
+## MongoDB 中的 collection 的關鍵特色
+
+Collection 就像是一個容器，用來組織和儲存文件。你可以把它想成關聯式資料庫中的「資料表」，
+但和資料表不同的是， collection 不會強制要求固定的結構（schema），所以管理資料更靈活。
+
+- **靈活的結構**： collection 中的文件可以有不同的結構或欄位，這讓你可以儲存無結構或半結構的資料，非常適合變動大的應用。
+- **動態性**： collection 可以自動建立，也可以手動建立，文件的增刪對 collection 中的其他文件不會有影響。
+
+## 如何建立 collection
+
+在 MongoDB 中建立 collection 有兩種方式：
+
+1. **隱式建立**：當你直接插入一筆資料到一個不存在的 collection 時，MongoDB 會自動建立這個 collection 。
+2. **顯式建立**：用 `db.createCollection(name, options)` 明確地建立 collection ，例如：
+
+   ```javascript
+   db.createCollection('users', { capped: true, size: 100000, max: 5000 });
+   ```
+
+可以設定 collection 的選項，例如 `capped`（限制 collection ）、大小和最大文件數量。
+
+### 管理 collection 的方法
+
+- **插入文件**：用 `insertOne()` 或 `insertMany()` 插入文件，例如：
+  
+  ```javascript
+  db.users.insertOne({ name: 'John Doe', age: 30, email: 'john@example.com' });
+  
+  db.users.insertMany([
+    { name: 'Jane Doe', age: 28, email: 'jane@example.com' },
+    { name: 'Mary Jane', age: 32, email: 'mary@example.com' },
+  ]);
+  ```
+
+- **查詢文件**：用 `find()` 查詢 collection 中的文件，例如：
+
+  ```javascript
+  db.users.find({ age: { $gt: 30 } });
+  ```
+
+- **更新文件**：用 `updateOne()`、`updateMany()` 或 `replaceOne()` 更新 collection 中的文件，例如：
+
+  ```javascript
+  db.users.updateOne({ name: 'John Doe' }, { $set: { age: 31 } });
+  
+  db.users.updateMany({ age: { $gt: 30 } }, { $inc: { age: 1 } });
+  ```
+
+- **刪除文件**：用 `deleteOne()` 或 `deleteMany()` 刪除文件，例如：
+
+  ```javascript
+  db.users.deleteOne({ name: 'John Doe' });
+  
+  db.users.deleteMany({ age: { $lt: 30 } });
+  ```
+
+- **刪除 collection**：要刪除整個 collection ，可以用 `drop()` 方法，例如：
+
+  ```javascript
+  db.users.drop();
+  ```
+
+
+
+### Query Operators
+
+MongoDB 的查詢運算符號可以讓我們更靈活地搜尋和操作集合中的文件。
+
+## 比較運算符號 (Comparison Operators)
+
+比較運算符用於將欄位值與指定值進行比對，常見的包括：
+
+- **$eq**：配對等於指定值的文件。
+- **$gt**：配對大於指定值的文件。
+- **$gte**：配對大於或等於指定值的文件。
+- **$lt**：配對小於指定值的文件。
+- **$lte**：配對小於或等於指定值的文件。
+- **$ne**：配對不等於指定值的文件。
+- **$in**：配對欄位值在指定陣列中的文件。
+- **$nin**：配對欄位值不在指定陣列中的文件。
+
+### 邏輯運算符號 (Logical Operators)
+邏輯運算符用來組合多個查詢條件，常見的有：
+
+- **$and**：配對所有指定條件都為真的文件。
+- **$or**：配對任一指定條件為真的文件。
+- **$not**：配對條件不為真的文件。
+- **$nor**：配對所有指定條件都不為真的文件。
+
+### 元素運算符號 (Element Operators)
+元素運算符專門用於篩選文件中特定的元素，包括：
+
+- **$exists**：配對包含指定欄位的文件。
+- **$type**：配對指定欄位的 BSON 類型為指定類型的文件。
+
+### 評估運算符號 (Evaluation Operators)
+評估運算符用於對特定欄位和值進行操作，比如正則表達式查詢或檢查陣列大小。常見的有：
+
+- **$expr**：允許在查詢語句中使用聚合運算式。
+- **$jsonSchema**：配對符合指定 JSON Schema 的文件。
+- **$mod**：配對指定欄位值可以被除數整除並得到指定餘數的文件。
+- **$regex**：配對欄位值符合指定正則表達式的文件。
+- **$text**：在文件的索引欄位內容上進行全文檢索。
+- **$where**：配對滿足指定 JavaScript 表達式的文件。
+
+### 陣列運算符號 (Array Operators)
+陣列運算符用於處理包含陣列的文件，常見的包括：
+
+- **$all**：配對陣列欄位包含所有指定值的文件。
+- **$elemMatch**：配對陣列欄位至少有一個元素符合指定條件的文件。
+- **$size**：配對陣列欄位具有指定元素數量的文件。
+
+### 位元運算符號 (Bitwise Operators)
+位元運算符用於對整數值進行位元操作，常見的有：
+
+- **$bitsAllClear**：配對指定欄位所有位元在位元遮罩中都為清除狀態（0）的文件。
+- **$bitsAllSet**：配對指定欄位所有位元在位元遮罩中都為設置狀態（1）的文件。
+- **$bitsAnyClear**：配對指定欄位任一位元在位元遮罩中為清除狀態（0）的文件。
+- **$bitsAnySet**：配對指定欄位任一位元在位元遮罩中為設置狀態（1）的文件。
