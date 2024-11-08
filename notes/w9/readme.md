@@ -42,8 +42,8 @@
 - **公平性的重要性**：選擇公平的指標和方法，避免測試結果的偏差，比如避免將PHP和Node.js用於不同擅長領域的比較。
 
 ### 2. Event Loop與Task Queue
-- **Event Loop作用**：是Node.js管理非同步操作的核心機制。當stack空閒時，Event Loop會從Task Queue中取出任務執行。
-- **Task Queue的優化**：Event Loop的存在允許非同步IO操作，例如文件讀寫、HTTP請求等不會阻塞主執行緒。
+- **Event Loop 作用**：是Node.js管理非同步操作的核心機制。當stack空閒時，Event Loop會從Task Queue中取出任務執行。
+- **Task Queue 的優化**：Event Loop的存在允許非同步IO操作，例如文件讀寫、HTTP請求等不會阻塞主執行緒。
 
 ### 3. 閉包 (Closure) 的特性
 - **閉包的優勢**：閉包使變數不會因為函數返回而被釋放，在Node.js開發中常被用於保持變數狀態或封裝私有資料。
