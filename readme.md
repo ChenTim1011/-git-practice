@@ -1,4 +1,5 @@
-# 雲端原生系統開發與維運(Cloud native system development and maintenance)
+# 雲端原生系統開發與維運
+Cloud native system development and maintenance
 
 **學號：110208059**  
 **系級：資訊四**  
@@ -6,7 +7,8 @@
 
 
 
-## 個人作業連結 (Homework Link)
+## 個人作業連結 
+Homework Link
 
 [第一周作業](https://github.com/ChenTim1011/git-practice/tree/main/week-01)
 
