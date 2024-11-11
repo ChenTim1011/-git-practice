@@ -1,4 +1,4 @@
-// 請在 Node.js 中實作一個函式 fibonacci(n)，該函式返回第 n 個費波納契數。
+// 請在 Node.js 中實作一個函式 fibonacci(n)，該函式回傳第 n 個費波納契數。
 
 // 嚴格模式
 "use strict";
@@ -31,9 +31,9 @@ function recursiveFib(n) {
 
 function tailRecursiveFib(n, a = 0, b = 1) {
   // tailRecursiveCount++;
-  // 當 n 為 0 時，返回累積結果 a
+  // 當 n 為 0 時，回傳累積結果 a
   if (n === 0) return a;
-  // 當 n 為 1 時，返回累積結果 b
+  // 當 n 為 1 時，回傳累積結果 b
   if (n === 1) return b;
   // 遞增累積的結果
   return tailRecursiveFib(n - 1, b, a + b);
