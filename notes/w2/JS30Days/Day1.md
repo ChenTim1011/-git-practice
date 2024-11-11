@@ -1,32 +1,7 @@
 [Problems](https://leetcode.com/problems/create-hello-world-function/?envType=study-plan-v2&envId=30-days-of-javascript)
 
 ---
-Write a function createHelloWorld. 
-It should return a new function that always returns "Hello World".
- 
-
-Example 1:
-
-Input: args = []
-Output: "Hello World"
-Explanation:
-const f = createHelloWorld();
-f(); // "Hello World"
-
-The function returned by createHelloWorld should always return "Hello World".
-Example 2:
-
-Input: args = [{},null,42]
-Output: "Hello World"
-Explanation:
-const f = createHelloWorld();
-f({}, null, 42); // "Hello World"
-
-Any arguments could be passed to the function but it should still always return "Hello World".
- 
----
-
-### 解釋
+## create-hello-world-function
 
 在程式設計中，Closure 是函式與其詞法環境的組合。詞法環境包含了當 Closure 建立時所能作用的變數。
 
