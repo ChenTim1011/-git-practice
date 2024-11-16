@@ -5,21 +5,47 @@
 1. **設定 AWS CloudWatch Metrics**
    - 進入 AWS CloudWatch，選擇 Tokyo 區域。
    - 確認可觀察的 EC2 instance metrics。
+     
+     ![image](https://github.com/user-attachments/assets/f5c5f22a-a99b-42a7-9eca-5ccaa5d72dc4)
+
 
     => 觀察到有 80 個 metrics
+   
+    ![image](https://github.com/user-attachments/assets/15ea001a-e060-4087-8ecf-b0fdfa03eec1)
 
-   - 找到並監控目標 EC2 instance 的 **CPUUtilization**。
 
-2. **建立 CloudWatch Alarm**
+   找到並監控目標 EC2 instance 的 **CPUUtilization**。
+
+   ![image](https://github.com/user-attachments/assets/3315001b-3c40-45cb-a6c7-b717d064bd0e)
+
+
+3. **建立 CloudWatch Alarm**
    - 前往 CloudWatch Alarms，為指定的 EC2 CPUUtilization 指標建立 alarm：
      - 條件：**Average CPUUtilization > 60%**
+
+      ![image](https://github.com/user-attachments/assets/b36917a7-2da1-484c-ba42-1ca0d4077bf4)
+
      - 設定當觸發 alarm 時，透過 SNS topic 發送通知到指定信箱。
+
+
+      ![image](https://github.com/user-attachments/assets/54196952-6a37-46d4-99cb-282587f124b2)
+
+
+     SNS 需要去 Email 驗證
+     
+     ![image](https://github.com/user-attachments/assets/f58aff4a-2c56-4d65-8b33-10ef57f0e498)
+
+     驗證成功
+   
+     ![image](https://github.com/user-attachments/assets/193a758d-f30a-4ea4-bbe8-8193b7ab4a77)
+
+       
     - 取得 **CloudWatch Alarm 圖表截圖**並儲存至 `/week-10/alarm-graph.png`。
 
    ![alarm-graph](https://github.com/user-attachments/assets/04e0b69e-b938-4479-8f05-ca427b414ffc)
 
 
-3. **模擬 CPU 使用**
+5. **模擬 CPU 使用**
    - 登入 EC2 instance，使用 `stress-ng` 或其他工具，模擬 CPU 高使用率。
 
     ### Step 1: 連線到 EC2 Instance
@@ -112,11 +138,12 @@
    ![image](https://github.com/user-attachments/assets/aae9bec1-e5f7-4ee3-8315-87e09ec072f1)
 
 
-#### Discord webbook
+### Discord webbook
 
 ![螢幕擷取畫面 2024-11-16 163937](https://github.com/user-attachments/assets/5198bdb0-fe09-43ad-a93a-8b931639ade4)
 
-![螢幕擷取畫面 2024-11-16 163917](https://github.com/user-attachments/assets/25bf1509-92bd-49d9-8279-953317e4d51c)
+![image](https://github.com/user-attachments/assets/7cbdee2d-9f8d-47a4-b1a8-73a098e4661b)
+
 
 
 ### Step 3: 寫 Lambda 程式碼，將通知發送至 Discord
