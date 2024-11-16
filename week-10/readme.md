@@ -16,6 +16,9 @@
      - 設定當觸發 alarm 時，透過 SNS topic 發送通知到指定信箱。
     - 取得 **CloudWatch Alarm 圖表截圖**並儲存至 `/week-10/alarm-graph.png`。
 
+   ![alarm-graph](https://github.com/user-attachments/assets/04e0b69e-b938-4479-8f05-ca427b414ffc)
+
+
 3. **模擬 CPU 使用**
    - 登入 EC2 instance，使用 `stress-ng` 或其他工具，模擬 CPU 高使用率。
 
@@ -36,11 +39,16 @@
     ### Step 3: 執行 `stress-ng` 模擬 CPU 高使用率
     使用 `stress-ng` 來模擬高 CPU 使用率。
     測試使用 t2-medium 兩個CPU、4G Memory
+   
+    ![螢幕擷取畫面 2024-11-16 160407](https://github.com/user-attachments/assets/a29fc810-dc3b-4890-82b2-70e7b17a50ac)
 
 
     ```bash
     sudo stress-ng --cpu 2 --cpu-load 90 --timeout 300s
     ```
+
+   ![螢幕擷取畫面 2024-11-16 160659](https://github.com/user-attachments/assets/83c3c348-9c9f-41b2-ac35-e06284b16e25)
+
 
     - `--cpu 2`: 使用 2 個 CPU 工作執行緒。如果你的 instance 有更多 CPU 核心，可以相應增加數量。
     - `--cpu-load 90`: 將 CPU 使用率設為 90%。
@@ -54,9 +62,15 @@
 
    - 確認 **CloudWatch Metrics** 中 CPUUtilization 指標的變化並截圖，儲存至 `/week-10/metrics.png`。
 
+![metrics](https://github.com/user-attachments/assets/75b6e954-1074-4565-8fca-c045de97c620)
 
-4. **確認信件通知**
+
+
+5. **確認信件通知**
    - 確認 alarm 被觸發後，是否有收到 SNS 發送的 email 通知，截圖並儲存至 `/week-10/alarm-email.png`。
+     
+![alarm-email](https://github.com/user-attachments/assets/e5709f2e-1b73-4a3c-a099-5a341405f4a1)
+
 
 
 ---
@@ -83,18 +97,32 @@
 
 1. 登入 AWS Console，進入 **Lambda Console**。
 2. 點選 **Create function**，選擇 **Author from scratch**。
-   - **Function name**：輸入自定義名稱，例如 `SendAlertToDiscord`
-   - **Runtime**：選擇 `nodejs.20.x`
+   - **Function name**：輸入自定義名稱，例如 `CloudHomework`
+   - **Runtime**：選擇 `node.js.20.x`
 3. 點擊 **Create function** 完成建立。
 
 ### Step 2: 配置 Lambda 觸發條件（SNS Topic）
 
 1. 在 Lambda function 的頁面中，往下找到 **Triggers**，點選 **Add trigger**。
+
 2. 選擇 **SNS** 作為觸發來源。
    - **SNS topic**：選擇已設定的 SNS topic（該 topic 應設定在 CloudWatch Alarm 中，以便在 Alarm 狀態下觸發 Lambda）。
 3. 點擊 **Add**，完成觸發條件設定。
 
+   ![image](https://github.com/user-attachments/assets/aae9bec1-e5f7-4ee3-8315-87e09ec072f1)
+
+
+#### Discord webbook
+
+![螢幕擷取畫面 2024-11-16 163937](https://github.com/user-attachments/assets/5198bdb0-fe09-43ad-a93a-8b931639ade4)
+
+![螢幕擷取畫面 2024-11-16 163917](https://github.com/user-attachments/assets/25bf1509-92bd-49d9-8279-953317e4d51c)
+
+
 ### Step 3: 寫 Lambda 程式碼，將通知發送至 Discord
+
+![image](https://github.com/user-attachments/assets/e3b97d7e-1b29-4dcf-a4f2-6ae25bccf9ec)
+
 
 1. 在 **Function code** 區域
 ```javascript
@@ -171,17 +199,34 @@ export const handler = async (event) => {
 
 ### Step 4: 設定 CloudWatch Logs 以觀察 Lambda 執行
 
-Lambda 自動將執行紀錄儲存到 CloudWatch Logs。無需手動設定，執行後可以直接前往 **CloudWatch Logs Console**，檢視 Lambda function 的執行日誌。
+Lambda 自動將執行紀錄儲存到 CloudWatch Logs。無需手動設定，執行後可以直接前往 **CloudWatch Logs Console**，檢視 Lambda function 的執行紀錄。
 
 ### Step 5: 測試並確認 Discord 通知
 
 1. 確保設定的 CloudWatch Alarm 會觸發 SNS topic。
+
+![image](https://github.com/user-attachments/assets/38ed2f0b-1a66-4c98-8fe0-518ae7be2dfe)
+
+   
 2. 模擬 CPU 使用率增加，讓 Alarm 進入 ALARM 狀態，觸發 Lambda。
 3. 前往 Discord，檢查是否收到來自 Lambda 的通知訊息（如有成功，截圖儲存為 `/week-10/lambda-discord.png`）。
+
+![lambda-discord](https://github.com/user-attachments/assets/16353777-729b-4aa8-b04f-b5d3b94124d5)
+
 
 ### Step 6: 檢視並截取 Lambda 執行的 CloudWatch Logs
 
 1. 前往 **CloudWatch Logs Console**。
-2. 找到 Lambda function 的 log group，進入並檢視執行日誌。
+
+![image](https://github.com/user-attachments/assets/aa2217d6-8a78-40a3-b62e-69c0ff8aea42)
+
+   
+2. 找到 Lambda function 的 log group，進入並檢視執行紀錄。
+
+![image](https://github.com/user-attachments/assets/87e515d1-8ad1-4266-b1f2-6bc07764efa5)
+
+  
 3. 截圖紀錄並儲存至 `/week-10/lambda-logs.png`。
+   
+![lambda-logs](https://github.com/user-attachments/assets/3c93207e-caa0-49c0-9643-04ccb1f6ed45)
 
