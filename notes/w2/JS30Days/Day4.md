@@ -45,7 +45,7 @@ var createCounter = function(init) {
 ### 2. 使用 Arrow Function
 
 Arrow Function 是 ES6 引入的一種簡短語法，用於定義函式。  
-它使用 `=>` 語法來取代 `function` 關鍵字，並且和傳統函式相比，有一些行為上的不同，例如繼承了周圍上下文的 `this` 值。  
+它使用 `=>` 語法來取代 `function` 關鍵字，並且和傳統函式相比，有一些行為上的不同，例如繼承了周圍內容的 `this` 值。  
 
 在此例中，我們使用 Arrow Function 定義 `increment`、`decrement` 和 `reset`，這樣寫法簡潔，並且省略了 `function` 關鍵字：
 
