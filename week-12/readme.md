@@ -79,6 +79,10 @@ docker container inspect my-container
 docker container run alpine echo "hello world"
 docker container run --rm alpine echo "hello world"
 ```
+![螢幕擷取畫面 2024-12-13 103415](https://github.com/user-attachments/assets/3686d4b6-15ad-4c9c-a8e2-97e0da58ebdc)
+
+![螢幕擷取畫面 2024-12-13 103558](https://github.com/user-attachments/assets/9ac4ac90-a8ea-47bd-86c2-f6b2d301a683)
+
 
 - Q1: 為什麼 docker container ls 看不到容器？
 
@@ -86,15 +90,20 @@ docker container run --rm alpine echo "hello world"
 echo "hello world" 命令執行完就結束了，容器也隨之停止
 使用 docker container ls -a 可以看到所有容器，包括已停止的容器
 
+
+![螢幕擷取畫面 2024-12-13 104239](https://github.com/user-attachments/assets/08ed22bd-2c06-42ba-b33e-8d82ff3753c3)
+
 - Q2: --rm 區別：
 
 第一個指令：容器停止後會保留，需要手動清理
 第二個指令：加入 --rm 參數，容器停止後會自動刪除
 --rm 參數適用於臨時性的任務，避免容器堆積
 
+
+
 ### 動手做 2: 前景與背景模式
 
-```Bash
+```bash
 ## 前景執行
 ## run 的時候沒有指定 COMMAND (CMD)，那就是用預設的 COMMAND
 docker container run -it nginx bash
@@ -120,7 +129,8 @@ docker container exec -it {container id or name} bash
 ## ubuntu 這個 image 如果用 detach 模式啟動會怎麼樣？ 啟動失敗
 docker container run -d ubuntu
 ## 你觀察到什麼？container 有被成功啟動嗎？ 沒有QQ
-​```
+
+```
 
 ❓為什麼 ubuntu 這個 image 用 detach 模式啟動，會不成功？
 
@@ -138,17 +148,24 @@ docker container run -d ubuntu
   - 因此容器立即停止
 
 要讓 Ubuntu 容器在背景持續運行，你需要指定一個持續運行的行程，例如：
-```bash
-docker container run -d ubuntu tail -f /dev/null
+
 ```
-或者使用互動模式：
-```bash
-docker container run -it ubuntu bash
+   docker container run -d ubuntu tail -f /dev/null
+   或者使用互動模式：
+   docker container run -it ubuntu bash
 ```
 
 4. **最佳實踐建議**：
 - 對於服務類應用（如 Nginx、MySQL 等），使用 `-d` 背景模式
 - 對於需要互動的容器（如開發環境），使用 `-it` 前景模式
+
+![螢幕擷取畫面 2024-12-13 105142](https://github.com/user-attachments/assets/52c382b3-ace4-4337-84a4-72b2288b9ed1)
+
+![螢幕擷取畫面 2024-12-13 105457](https://github.com/user-attachments/assets/00633f9b-7d74-4702-8526-4268a0f30ffc)
+
+![螢幕擷取畫面 2024-12-13 105704](https://github.com/user-attachments/assets/921bba89-8bc4-4fba-a8b9-018f066848e0)
+
+![螢幕擷取畫面 2024-12-13 105848](https://github.com/user-attachments/assets/4369c9e5-ac24-4533-a2e9-d59fd5795382)
 
 
 ### 動手做 3: 環境變數
@@ -160,6 +177,8 @@ docker container run -it --rm -e DB_HOST=1.2.3.4 -e DB_USERNAME=tester -e DB_PAS
 > env
 # env 可以印出目前有哪些環境變數，觀察看看是否有 DB_HOST, DB_USERNAME 跟 DB_PASSWORD
 ```
+
+![螢幕擷取畫面 2024-12-13 111411](https://github.com/user-attachments/assets/7031366a-a034-4542-b2c6-318dd47c84b4)
 
 ## Docker Image
 
@@ -176,6 +195,8 @@ docker image ls
 ## 應該會發現，雖然 repository 或是 tag 不一樣，但 ID 是一樣的
 ```
 
+![螢幕擷取畫面 2024-12-13 111702](https://github.com/user-attachments/assets/ecdf7dd3-d894-44f6-b072-e5acaa77fb14)
+
 ### 動手做 2: image 與 container 的關係
 
 ```bash
@@ -190,6 +211,13 @@ docker container run -it alpine ash
 docker container run -it alpine ash
 > ls 
 ```
+
+![螢幕擷取畫面 2024-12-13 112047](https://github.com/user-attachments/assets/2ed48c95-3332-49d1-9324-1495e5558e96)
+
+
+![螢幕擷取畫面 2024-12-13 112051](https://github.com/user-attachments/assets/27d3bc66-713c-4523-97cc-c12c36dd2e33)
+7ab14f4)
+
 
 #### 實驗結果：
 
@@ -300,8 +328,11 @@ docker container run --rm nginx echo "hello world"
 
 # 兩次執行的結果有何差異? =>
 ```
+![螢幕擷取畫面 2024-12-13 114212](https://github.com/user-attachments/assets/446835fe-6996-4a89-9973-adb8307ee0b1)
+
 
 第一次執行較慢（需要下載 image ）
+
 第二次執行很快（直接使用本地 image ）
 
 
@@ -324,6 +355,8 @@ docker container rm lab
 docker image rm alpine
 # 可以刪除嗎？會看到什麼？
 ```
+
+![螢幕擷取畫面 2024-12-13 115126](https://github.com/user-attachments/assets/1f2009ae-6427-4e8b-bd8f-a24e1998fb61)
 
 ❓為什麼前兩次不能刪除？最後一次卻可以了？
 
