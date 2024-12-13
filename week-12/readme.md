@@ -477,6 +477,7 @@ docker container run -d -p 3001:80 {custom image name}
 curl localhost:3000
 curl localhost:3001
 ```
+![螢幕擷取畫面 2024-12-13 131135](https://github.com/user-attachments/assets/43dede8c-c5ce-4e05-be27-97fe1fee036c)
 
 ### 動手做 2: 觀察網路的變化
 
@@ -504,18 +505,26 @@ docker container exec -it alpine1 ash
 ```
 
 
+![image](https://github.com/user-attachments/assets/f6be37cc-9e9b-49ac-91c5-08c8f3a8f625)
+
+
 - `docker0` 橋接網卡
 - IP 地址範圍通常是 172.17.0.1
 - 這是 Docker 預設的橋接網路介面
+
+
+![image](https://github.com/user-attachments/assets/ca033a66-f725-4538-abc2-6146f8fc6d5a)
+
 
 
 - `bridge`：預設橋接網路
 - `host`：主機網路
 - `none`：無網路
 
+![image](https://github.com/user-attachments/assets/674b2ca2-200f-4e5c-b568-6d20b343ac65)
 
-- 網段設置：172.17.0.0/16
-- 網關：172.17.0.1
+- Subnet 設置：172.17.0.0/16
+- Gateway ：172.17.0.1
 - IPAM 設置
 - 已連接的容器資訊
 
@@ -543,6 +552,7 @@ ip addr
 - eth0 介面
 - IP 地址（如 172.17.0.2）
 
+![螢幕擷取畫面 2024-12-13 131517](https://github.com/user-attachments/assets/d7d2ae50-d4dd-4675-a4c6-d01a343cb0a2)
 
 1. **容器間通訊測試**：
 ```bash
@@ -550,6 +560,9 @@ ping 172.17.0.3
 ```
 - 可以成功 ping 通
 - 證明容器間可以通過 docker0 橋接網路互相通訊
+
+![螢幕擷取畫面 2024-12-13 131559](https://github.com/user-attachments/assets/096b1324-4472-427d-bbee-4cbeacef3fab)
+
 
 重要觀察：
 
@@ -588,6 +601,9 @@ docker network inspect my-net
 - IP 地址範圍
 - 已連接的容器
 
+![螢幕擷取畫面 2024-12-13 135828](https://github.com/user-attachments/assets/ec0bbb1c-a39e-4943-8de7-53e858231756)
+
+
 1. **使用自定義網路建立容器**:
 ```bash
 docker container run -dit --network my-net --name alpine3 alpine ash
@@ -595,6 +611,9 @@ docker container run -dit --network my-net --name alpine4 alpine ash
 ```
 - 容器直接連接到自定義網路
 - 會獲得新網段的 IP 地址
+
+![螢幕擷取畫面 2024-12-13 140239](https://github.com/user-attachments/assets/9d2be8bf-1dac-47dd-83ef-7ea62484172f)
+
 
 1. **重要區別**:
 
