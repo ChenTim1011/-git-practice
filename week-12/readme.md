@@ -1,5 +1,9 @@
 # 20241128 W12 - 個人作業 8
 
+## 參考資料
+[個人作業 8](https://lightda-tw.notion.site/20241128-W12-8-14b2ceabc70c80c1879df943e4fa7d0a)
+
+
 ## Docker 練習
 
 
@@ -22,7 +26,7 @@
 image是一個唯讀的模板，包含了運行應用程式所需的所有文件和設定。
 
 - **Container（容器）**：
-容器是 image 的運行實體。一個 image 可以創建多個容器，每個容器都是相互隔離的運行環境。
+容器是 image 的運行實體。一個 image 可以建立多個容器，每個容器都是相互隔離的運行環境。
 
 1. **Docker的重要概念**
 
@@ -221,7 +225,7 @@ docker container run -it alpine ash
 
 #### 實驗結果：
 
-在第一個容器中創建的 a.txt 文件，在第二個容器中是看不到的。
+在第一個容器中建立的 a.txt 文件，在第二個容器中是看不到的。
 第二個容器執行 ls 命令時，只會看到 Alpine image 中原本就存在的文件。
 
 #### 這個實驗說明了幾個重要的 Docker 概念：
@@ -251,7 +255,7 @@ docker container commit {container hash id} {new image name}
 這個操作會：
 - 將容器當前的狀態保存為新的 image
 - 包含容器中所有的修改（如新建的文件）
-- 創建一個新的image層
+- 建立一個新的image層
 
 1. **使用新image啟動容器**
 ```bash
@@ -266,9 +270,9 @@ docker image history {image id}
 ```
 這會顯示：
 - image 的所有層
-- 每層的創建命令
+- 每層的建立命令
 - 層的大小
-- 創建時間等信息
+- 建立時間等資訊
 
 1. **image 的導出和導入**
 ```bash
@@ -283,7 +287,7 @@ docker image load -i alpine.tar
 ```
 這些操作的用途：
 - 備份 image
-- 在沒有網絡的環境中遷移 image
+- 在沒有網路的環境中遷移 image
 - 離線部署或分發 image
 
 實際應用範例：
@@ -398,4 +402,222 @@ docker image rm alpine
 # 或者使用強制刪除（不推薦）：
 docker image rm -f <image_name>
 ```
+
+## Docker Network
+
+1. **Docker Network 三種基本類型**：
+
+- **none**：
+  - 完全隔離的網路環境
+  - 容器沒有網路介面
+  - 適用於不需要網路的應用
+
+- **bridge**（預設模式）：
+  - 建立虛擬網橋 docker0
+  - 容器可以通過此橋接口相互通訊
+  - 支援 Port 映射到主機
+
+- **host**：
+  - 直接使用主機網路堆疊
+  - 沒有網路隔離
+  - 性能最好但安全性較低
+
+2. **圖中網路架構解析**：
+
+```plaintext
+Host (主機)
+├── eth0 (主機網卡，端口5566)
+└── docker0 (172.17.0.1, 橋接網路)
+    ├── Container 1 (172.17.0.2)
+    │   └── eth0 <-> veth111111
+    └── Container 2 (172.17.0.3)
+        └── eth0 <-> veth222222
+```
+
+3. **網路通訊流程**：
+
+- **容器間通訊**：
+  - 通過 docker0 橋接網路
+  - 使用虛擬網卡對（veth pair）
+  - 直接使用 172.17.x.x 內部 IP 通訊
+
+- **對外通訊**：
+  - 通過 Port 映射（-p 5566:3000）
+  - 外部通過主機IP:5566 存取容器的3000端口
+
+4. **重要概念**：
+
+- **veth pair**：
+  - 虛擬網卡對
+  - 一端連接容器，一端連接 docker0
+  - 實現網路資料傳輸
+
+- **端口映射**：
+  ```bash
+  docker run -p 5566:3000 myapp
+  ```
+  - 5566：主機端口
+  - 3000：容器內部端口
+
+5. **最佳實踐**：
+
+- 使用自定義橋接網路而不是預設網路
+- 合理規劃網段和 Port 映射
+- 對安全敏感的應用使用隔離網路
+- 使用 Docker Compose 管理複雜網路設置
+
+
+### 動手作 1: mapping port number
+
+```bash
+docker container run -d -p 3000:80 {custom image name}
+docker container run -d -p 3001:80 {custom image name}
+
+# 從 host 測試
+curl localhost:3000
+curl localhost:3001
+```
+
+### 動手做 2: 觀察網路的變化
+
+```bash
+# 在 host 觀察一下
+ip addr
+# 會看到有一張 docker0 的網卡
+
+# 列出目前的 docker network
+docker network list
+# 查看一下 birdge 這個網路
+docker network inspect bridge
+# 可以看到 Subnet 是 172.17.0.0/16
+
+docker container run -dit --name alpine1 alpine ash
+docker container run -dit --name alpine2 alpine ash
+# 在 host 觀察一下，可以看到多了兩張虛擬網卡
+ip addr
+# 進入 alpine1
+docker container exec -it alpine1 ash
+# 觀察 container 的 ip
+> ip addr
+# 試試看能不能 ping 到另外一個 container
+> ping 172.17.0.3
+```
+
+
+- `docker0` 橋接網卡
+- IP 地址範圍通常是 172.17.0.1
+- 這是 Docker 預設的橋接網路介面
+
+
+- `bridge`：預設橋接網路
+- `host`：主機網路
+- `none`：無網路
+
+
+- 網段設置：172.17.0.0/16
+- 網關：172.17.0.1
+- IPAM 設置
+- 已連接的容器資訊
+
+
+- 每個容器都會：
+  - 獲得一個虛擬網卡（veth）
+  - 分配一個 IP 地址
+  - 連接到 docker0 橋接網路
+
+1. **觀察新的虛擬網卡**：
+```bash
+ip addr
+```
+會看到：
+- 新增的 veth 對
+- 一端連接到 docker0
+- 另一端連接到容器內部
+
+1. **容器內部網路**：
+```bash
+docker container exec -it alpine1 ash
+ip addr
+```
+顯示：
+- eth0 介面
+- IP 地址（如 172.17.0.2）
+
+
+1. **容器間通訊測試**：
+```bash
+ping 172.17.0.3
+```
+- 可以成功 ping 通
+- 證明容器間可以通過 docker0 橋接網路互相通訊
+
+重要觀察：
+
+1. **網路隔離**：
+- 每個容器有自己的網路命名空間
+- 擁有獨立的 IP 地址
+- 通過虛擬網卡連接到主機
+
+2. **自動設定**：
+- Docker 自動處理 IP 分配
+- 自動建立虛擬網卡對
+- 自動設定路由
+
+3. **通訊機制**：
+- 容器間可直接通訊
+- 通過 docker0 橋接
+- 使用內部 IP 地址
+
+### 動手做 3: 建立自己的網路
+
+1. **建立自定義網路**:
+```bash
+docker network create --driver bridge my-net
+```
+- 建立了一個新的橋接網路
+- 使用不同的網段（172.18.0.0/16）
+- 有別於預設橋接網路（172.17.0.0/16）
+
+1. **查看網路資訊**:
+```bash
+docker network list
+docker network inspect my-net
+```
+顯示：
+- 新建網路的詳細設定
+- IP 地址範圍
+- 已連接的容器
+
+1. **使用自定義網路建立容器**:
+```bash
+docker container run -dit --network my-net --name alpine3 alpine ash
+docker container run -dit --network my-net --name alpine4 alpine ash
+```
+- 容器直接連接到自定義網路
+- 會獲得新網段的 IP 地址
+
+1. **重要區別**:
+
+預設橋接網路 vs 自定義橋接網路：
+
+|特性|預設橋接網路|自定義橋接網路|
+|---|---|---|
+|DNS 解析|❌ 不支持容器名稱解析|✅ 支持容器名稱解析|
+|網路隔離|所有容器共享|可以建立多個隔離網路|
+|自動DNS|無|內建 DNS 服務|
+|容器互聯|需要使用 IP|可以使用容器名稱|
+
+5. **容器間通訊測試**:
+```bash
+# 在 alpine3 中
+ping alpine4  # 在自定義網路中可以工作
+ping 172.18.0.3  # IP 地址也可以
+```
+
+6. **最佳實踐建議**:
+
+- 盡量使用自定義網路而不是預設橋接網路
+- 利用自動 DNS 解析功能，用容器名稱而不是 IP
+- 使用網路隔離來增強安全性
+- 合理規劃網段，避免網路衝突
 
