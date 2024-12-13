@@ -609,6 +609,7 @@ docker network inspect my-net
 docker container run -dit --network my-net --name alpine3 alpine ash
 docker container run -dit --network my-net --name alpine4 alpine ash
 ```
+
 - 容器直接連接到自定義網路
 - 會獲得新網段的 IP 地址
 
@@ -726,7 +727,14 @@ docker volume create my-vol
 # 查看volume詳情
 docker volume inspect my-vol
 ```
+
+![螢幕擷取畫面 2024-12-13 151730](https://github.com/user-attachments/assets/799b719e-d030-4fa9-8976-9188e48ac358)
+
+
 此時會看到 volume 的詳細資訊，包括掛載點位置。
+
+![螢幕擷取畫面 2024-12-13 152141](https://github.com/user-attachments/assets/679ab545-22ad-4040-a502-09cdc3969a0d)
+
 
 2. **第一個容器操作**：
 ```bash
@@ -737,6 +745,8 @@ docker container run -it --rm --name vol-test -v my-vol:/app alpine
 - 寫入文件到 volume 中
 - `--rm` 參數表示容器停止後自動刪除
 
+![螢幕擷取畫面 2024-12-13 152153](https://github.com/user-attachments/assets/d0268d17-f99d-49dc-ae7a-dd10dae2ad4f)
+
 3. **第二個容器操作**：
 ```bash
 docker container run -it --rm --name vol-test2 -v my-vol:/app alpine
@@ -744,6 +754,8 @@ docker container run -it --rm --name vol-test2 -v my-vol:/app alpine
 ```
 - 使用相同的 volume
 - 添加新內容到同一個文件
+
+![螢幕擷取畫面 2024-12-13 152159](https://github.com/user-attachments/assets/ebfae819-6e11-4e75-bc60-f92512fd76b7)
 
 4. **回到第一個容器觀察**：
 - 可以看到兩個容器的寫入內容都存在
