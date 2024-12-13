@@ -640,3 +640,148 @@ ping 172.18.0.3  # IP 地址也可以
 - 使用網路隔離來增強安全性
 - 合理規劃網段，避免網路衝突
 
+##  Docker Storage
+
+有三種類型: Bind Mounts, Volume, tmpfs
+
+- Bind Mounts: 把 host 的檔案或檔案夾掛載 (mount) 進 container 中
+- Volume: 由 Docker 來管理的檔案夾
+- tmpfs: 儲存在 host 的記憶體中
+
+
+### 動手做 1: Bind Mounts
+
+1. **基本設置與指令解析**：
+```bash
+docker container run -d \
+  -p 80:80 \
+  --mount type=bind,src="$(pwd)"/myweb/html,dst=/usr/share/nginx/html \
+  nginx
+```
+- `--mount`: 現代推薦的掛載語法
+- `src`: 主機上的來源目錄
+- `dst`: 容器內的目標目錄
+- `-p 80:80`: Port 映射
+
+1. **關於文件修改的問題**:
+是的，在主機上修改文件會直接影響容器內的文件，因為：
+- Bind Mount 建立了主機和容器之間的雙向綁定
+- 實際文件儲存在主機上
+- 容器看到的是主機文件的直接映射
+- 修改即時生效，不需要重啟容器
+
+1. **關於目標目錄已存在的情況**：
+
+當目標目錄（dst）在容器中已存在時：
+- **Bind Mount 會完全覆蓋容器中的原有目錄**
+- 原有目錄的所有內容都會被隱藏
+- 只能看到主機上源目錄的內容
+
+例如，在 Nginx 容器中：
+```bash
+/usr/share/nginx/html/  # 原本就有預設的 index.html
+```
+
+掛載後：
+- 原有的 index.html 會被隱藏
+- 只能看到主機上 myweb/html/ 目錄的內容
+
+4. **重要注意事項**：
+
+- **資料持久性**：
+  - 容器刪除不影響主機上的文件
+  - 主機文件刪除會直接影響容器
+
+- **權限問題**：
+  - 需要確保適當的文件權限
+  - 可能需要考慮 SELinux 的設置
+
+- **安全考慮**：
+  - Bind Mount 給了容器對主機文件的存取權
+  - 需要謹慎選擇要掛載的目錄
+
+5. **最佳實踐**：
+
+```bash
+# 建議使用唯讀綁定，防止容器修改主機文件
+docker container run -d \
+  -p 80:80 \
+  --mount type=bind,src="$(pwd)"/myweb/html,dst=/usr/share/nginx/html,readonly \
+  nginx
+
+# 確保源目錄存在
+mkdir -p "$(pwd)"/myweb/html
+
+# 檢查掛載狀態
+docker container inspect <container-id>
+```
+1. **Volume 基本操作**：
+```bash
+# 列出所有volumes
+docker volume ls
+
+# 建立新volume
+docker volume create my-vol
+
+# 查看volume詳情
+docker volume inspect my-vol
+```
+此時會看到 volume 的詳細資訊，包括掛載點位置。
+
+2. **第一個容器操作**：
+```bash
+docker container run -it --rm --name vol-test -v my-vol:/app alpine
+> echo "I am in first container" >> /app/a.txt
+```
+- 建立並掛載 volume 到 `/app` 目錄
+- 寫入文件到 volume 中
+- `--rm` 參數表示容器停止後自動刪除
+
+3. **第二個容器操作**：
+```bash
+docker container run -it --rm --name vol-test2 -v my-vol:/app alpine
+> echo "I am in second container" >> /app/a.txt
+```
+- 使用相同的 volume
+- 添加新內容到同一個文件
+
+4. **回到第一個容器觀察**：
+- 可以看到兩個容器的寫入內容都存在
+- 文件 `a.txt` 包含兩行內容：
+  ```
+  I am in first container
+  I am in second container
+  ```
+
+重要概念：
+
+1. **Volume 特性**：
+- 資料持久化儲存
+- 可以在多個容器間共享
+- 容器刪除不影響 volume 資料
+- 由 Docker 管理，比 bind mount 更安全
+
+2. **與 Bind Mount 的區別**：
+- Volume 由 Docker 管理
+- 資料儲存在 Docker 區域
+- 更容易備份和遷移
+- 可以使用 volume drivers 儲存遠程資料
+
+3. **常用命令**：
+```bash
+# 刪除未使用的volume
+docker volume prune
+
+# 備份volume
+docker run --rm -v my-vol:/source -v $(pwd):/backup alpine tar czvf /backup/backup.tar.gz /source
+
+# 恢復volume
+docker run --rm -v my-vol:/target -v $(pwd):/backup alpine tar xzvf /backup/backup.tar.gz -C /target
+```
+
+4. **最佳實踐**：
+- 使用具名 volume 而不是匿名 volume
+- 定期備份重要資料
+- 使用 `--rm` 清理臨時容器
+- 使用 `docker-compose` 管理複雜的 volume 設定
+
