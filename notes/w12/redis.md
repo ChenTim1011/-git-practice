@@ -25,6 +25,8 @@ set key1 "Hello Redis"
 # 取得 key1 的值
 get key1
 ```
+![螢幕擷取畫面 2024-12-15 225222](https://github.com/user-attachments/assets/cefc308c-e815-4817-92ce-495f49f3674e)
+
 
 #### **List (列表)**
 ```bash
@@ -37,6 +39,9 @@ lpush list1 "C"
 lrange list1 0 -1
 ```
 
+![螢幕擷取畫面 2024-12-15 225227](https://github.com/user-attachments/assets/6ca8760d-c77b-42af-a6f9-c513b802b4cd)
+
+
 #### **Set (集合)**
 ```bash
 # 新增元素到 Set
@@ -48,6 +53,9 @@ sadd set1 "Orange"
 smembers set1
 ```
 
+
+![螢幕擷取畫面 2024-12-15 225234](https://github.com/user-attachments/assets/0baa5de8-ce55-4eba-8ed5-476987b31e31)
+
 #### **Hash (哈希)**
 ```bash
 # 設定一個 Hash
@@ -57,12 +65,15 @@ hset user:1 name "John" age "25" city "Taipei"
 hgetall user:1
 ```
 
+![螢幕擷取畫面 2024-12-15 225239](https://github.com/user-attachments/assets/d88695c4-e52b-4386-84a7-d84c0b24f3e2)
+
+
 #### **Sorted Set (有序集合)**
 ```bash
 # 新增元素與分數到 Sorted Set
 zadd scores 100 "Tom" 95 "Jerry" 80 "Spike"
-
 # 取得所有有序元素
 zrange scores 0 -1 WITHSCORES
 ```
 
+![螢幕擷取畫面 2024-12-15 225245](https://github.com/user-attachments/assets/de281d28-d89d-409b-bfd7-c6c212d7c627)
